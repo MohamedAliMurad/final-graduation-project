@@ -1,6 +1,5 @@
-import React = require('react');
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 interface Notification {
   id: number;
@@ -132,7 +131,6 @@ const Index = () => {
       </View>
     );
   };
-
 
   return (
     <ScrollView>

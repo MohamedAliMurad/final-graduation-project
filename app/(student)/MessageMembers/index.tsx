@@ -151,7 +151,7 @@ const MessageMembers = () => {
 
   const renderChatItem = ({ item }: { item: ChatItem }) => (
     <View style={styles.link}>
-      <Swipeable style={styles.swipeable}>
+      <Swipeable>
         <View style={styles.chatItem}>
           <Link push href={{ pathname: '/MessageScreen/', params: { user: item.name } }} style={styles.link}>
             <View style={styles.chatItem2}>
@@ -266,9 +266,9 @@ const styles = StyleSheet.create({
   link: {
     width: '100%', // Adjust width as needed
   },
-  swipeable: {
-    width: '100%', // Adjust width as needed
-  },
+  // swipeable: {
+  //   width: '100%', // Adjust width as needed
+  // },
 });
 
 export default MessageMembers;

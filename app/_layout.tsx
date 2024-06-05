@@ -56,6 +56,14 @@ const _layout = () => {
             }}
           />
 
+          {/* <Stack.Screen
+            name="(student)/aaaatttt/aaaatttt"
+            options={{
+              headerTitle: 'aaaatttt',
+              headerStyle: { backgroundColor: '#F19A1A' },
+            }}
+          /> */}
+
           <Stack.Screen
             name="(student)/Attendance/AttendanceDetails/index"
             options={{
@@ -139,6 +147,15 @@ const _layout = () => {
 
           <Stack.Screen
             name="(professor)/Notifications/index"
+            options={{
+              headerTitle: 'Notifications',
+              headerShown: true,
+              headerStyle: { backgroundColor: '#F19A1A' },
+            }}
+          />
+
+          <Stack.Screen
+            name="(student)/Notifications/index"
             options={{
               headerTitle: 'Notifications',
               headerShown: true,

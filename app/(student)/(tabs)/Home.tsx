@@ -150,7 +150,8 @@ const Home = () => {
           <Text style={styles.welcomeText}>Welcome back</Text>
           <Text style={styles.userName}>Mohamed Ali</Text>
         </View>
-        <Link href={{ pathname: '/Notifications' }} asChild>
+        {/* <Link href={{ pathname: '/(student)/aaaatttt/aaaatttt' }} asChild> */}
+        <Link href={{ pathname: '(student)/Notifications/' }} asChild>
           <Pressable>
             <AntDesign name="bells" size={25} color="white" />
           </Pressable>

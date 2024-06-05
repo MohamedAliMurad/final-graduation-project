@@ -22,14 +22,12 @@ const AssignmentsScreen: React.FC = () => {
   };
 
   const onFinished = () => {
-    console.log('pressed');
     setIsClickedSecond(true);
     setIsClickedFirst(false);
     setShowFinished(true);
   };
 
   const onUnfinished = () => {
-    console.log('pressed');
     setIsClickedFirst(true);
     setIsClickedSecond(false);
     setShowFinished(false);
@@ -74,13 +72,13 @@ const AssignmentsScreen: React.FC = () => {
             onPress={onUnfinished}
             style={[styles.bottom, isClickedFirst && styles.clicked]}
           >
-            <Text>Unfinished</Text>
+            <Text style={[styles.text, isClickedFirst ? { color: 'white' } : null]}>Unfinished</Text>
           </Pressable>
           <Pressable
             onPress={onFinished}
             style={[styles.bottom, isClickedSecond && styles.clicked]}
           >
-            <Text>Finished</Text>
+            <Text style={[styles.text, isClickedSecond ? { color: 'white' } : null]}>Finished</Text>
           </Pressable>
         </View>
         <View style={styles.second}>
@@ -109,6 +107,11 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     textAlign: 'center',
   },
+  text:{
+    fontSize: 18,
+    fontWeight: '400',
+    padding: 0,
+  },
   icon: {
     borderWidth: 2,
     borderColor: '#F19A1A',
@@ -131,13 +134,11 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
   },
   bottom: {
-    width: 90,
+    width: 130,
     padding: 2,
-    margin: 6,
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    // borderWidth: 1,
   },
   clicked: {
     backgroundColor: '#F19A1A',

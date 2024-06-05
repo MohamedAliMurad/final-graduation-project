@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import QuizDetailsComponent from '../(components)/QuizDetailsComponent';
 import ExamRules from '../(components)/ExamRules';
@@ -14,14 +14,21 @@ const index = () => {
     navigation.setOptions({ title: examName });
   }, [examName]);
   return (
-    <ScrollView>
-      <SafeAreaView>
+    <View style={styles.container}>
         <QuizDetailsComponent />
-        <Box mt={3} w={'full'} h={'3px'} bgColor={'gray.300'}></Box>
         <ExamRules />
-      </SafeAreaView>
-    </ScrollView>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+
+  },
+});
 
 export default index;

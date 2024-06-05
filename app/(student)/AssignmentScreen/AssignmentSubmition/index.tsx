@@ -35,11 +35,11 @@ const index = () => {
   const [reviewFile, setReviewFile] = useState<any>();
 
   const navigation = useNavigation();
-  const params = useLocalSearchParams<{ title: string, assignmentDetails:string, deadline: string }>();
-  const { title } = params;
+  const params = useLocalSearchParams<{ assignmentTitle: string, assignmentDetails:string, deadline: string }>();
+  const { assignmentTitle } = params;
   useEffect(() => {
-    navigation.setOptions({ title });
-  }, [title]);
+    navigation.setOptions({ title: assignmentTitle});
+  }, [assignmentTitle]);
 
   const handleAssignmentSubmit = () => {
     console.log('Assignment submitted:', commentText);
@@ -137,11 +137,9 @@ const index = () => {
       <View style={styles.header}>
         <Text style={styles.title}>Details:</Text>
         <View style={styles.details}>
-          <Text style={styles.date}>Date Time : after week</Text>
+          <Text style={styles.date}>Deadline: {params.deadline} </Text>
           <Text style={styles.description}>
-            Description : Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Non beatae vero odit distinctio ut corrupti veniam praesentium
-            voluptates, officia nobis.
+            Description : {params.assignmentDetails}
           </Text>
         </View>
       </View>
@@ -176,7 +174,7 @@ const index = () => {
         </View>
         <View style={styles.content}>
           {isUploadClicked ? (
-            <ScrollView style={{ width: '100%', paddingHorizontal: 5 }}>
+            <ScrollView style={{ width: '100%', padding: 5 }}>
               {doc &&
                 doc.map((doc) => (
                   <ImageAndDocumentComponent
@@ -197,9 +195,9 @@ const index = () => {
                     ) : (
                       <AntDesign
                         name="pdffile1"
-                        size={50}
+                        size={48}
                         color="#F19A1A"
-                        style={{}}
+                        style={{padding: 10}}
                       />
                     )}
                   </ImageAndDocumentComponent>
@@ -317,6 +315,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 10,
   },
   form: {
     padding: 20,

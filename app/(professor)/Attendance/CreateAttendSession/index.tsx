@@ -286,12 +286,11 @@ const Index = () => {
           <View style={styles.radioGroup}>
             <View style={styles.radioButton}>
               <RadioButton
-                id="Rooms"
                 value="Rooms"
                 status={selectedOption === 'Rooms' ? 'checked' : 'unchecked'}
                 onPress={() => handleOptionChange('Rooms')}
               />
-              <Text for='Rooms'>Rooms</Text>
+              <Text>Rooms</Text>
             </View>
             <View style={styles.radioButton}>
               <RadioButton
@@ -352,7 +351,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F19A1A',
   },
   map: {
-    height: 250,
+    height: 190,
     marginBottom: 10,
   },
   errorText: {

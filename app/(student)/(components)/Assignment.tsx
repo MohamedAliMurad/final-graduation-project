@@ -26,13 +26,13 @@ const Assignment = ({ assignment }: AssignmentProps) => {
       <Link
         href={{
           pathname: '/(student)/AssignmentScreen/AssignmentSubmition',
-          params: { assignmentTitle: assignment.title, assignmentDetails: assignment.details, instructor: assignment.instructor, deadline: assignment.deadline},
+          params: { assignmentTitle: assignment.title, assignmentId: assignment.id, assignmentDetails: assignment.details, deadline: assignment.deadline},
         }}
         asChild
       >
         <Pressable onPress={onPressHandler}>
           <Center
-            h="100"
+            h="70"
             bg="#F6F6F6"
             rounded="xl"
             shadow={0}
@@ -44,14 +44,7 @@ const Assignment = ({ assignment }: AssignmentProps) => {
             <View style={styles.content}>
               <View style={styles.textContainer}>
                 <Text style={styles.assignmentNumber}>{assignment.title}</Text>
-                <View style={{display:'flex', flexDirection:'row',justifyContent:'space-between', alignItems:'center', height:20}}>
-                  <View ><Text style={styles.deadline}>Deadline: {assignment.deadline}</Text></View>
-                  <View style={styles.daysLeftContainer}>
-                    <Text style={[styles.daysLeft, { backgroundColor: '#ED7633' }]}>
-                      1 more day
-                    </Text>
-                  </View>
-                </View>
+                <Text style={styles.deadline}>Deadline: {assignment.deadline}</Text>
               </View>
             </View>
           </Center>
@@ -59,22 +52,22 @@ const Assignment = ({ assignment }: AssignmentProps) => {
       </Link>
     ) : (
       <Center
-        h="100"
-        bg="#F6F6F6"
-        rounded="xl"
-        shadow={0}
-        style={styles.container}
-      >
-        <View style={styles.icon}>
-          <AntDesign name="filetext1" size={45} color="#F19A1A" />
+      h="70"
+      bg="#F6F6F6"
+      rounded="xl"
+      shadow={0}
+      style={styles.container}
+    >
+      <View style={styles.icon}>
+        <AntDesign name="filetext1" size={40} color="#F19A1A" />
+      </View>
+      <View style={styles.content}>
+        <View style={styles.textContainer}>
+          <Text style={styles.assignmentNumber}>{assignment.title}</Text>
+          <Text style={styles.deadline}>Deadline: {assignment.deadline}</Text>
         </View>
-        <View style={styles.content}>
-          <View style={styles.textContainer}>
-            <Text style={styles.assignmentNumber}>{assignment.title}</Text>
-            <Text style={styles.deadline}>Deadline: {assignment.deadline}</Text>
-          </View>
-        </View>
-      </Center>
+      </View>
+    </Center>
     )
   );
 };
@@ -108,6 +101,7 @@ const styles = StyleSheet.create({
   assignmentNumber: {
     fontWeight: '500',
     marginBottom: 5,
+    fontSize: 16,
   },
   deadline: {
     color: 'gray',

@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View, TextInput } from 'react-native';
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+} from 'react-native';
 import { VStack } from 'native-base';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
-import Sessions from '../(components)/sessions';
 import Session from '../(components)/Session';
-
+import Sessions from '../(components)/sessions';
 const sessions = Sessions;
 
 const index = () => {
@@ -16,10 +22,14 @@ const index = () => {
     navigation.setOptions({ title: sessionName });
   }, [sessionName]);
 
-  const [filterCriteria, setFilterCriteria] = useState<'attend' | 'pending' | 'absence' | 'late'>('attend');
+  const [filterCriteria, setFilterCriteria] = useState<
+    'attend' | 'pending' | 'absence' | 'late'
+  >('attend');
   const [searchText, setSearchText] = useState<string>('');
 
-  const handleTabPress = (criteria: 'attend' | 'absence' | 'late' | 'pending') => {
+  const handleTabPress = (
+    criteria: 'attend' | 'absence' | 'late' | 'pending'
+  ) => {
     setFilterCriteria(criteria);
   };
 
@@ -28,7 +38,9 @@ const index = () => {
   };
 
   const filteredSessions = sessions.filter((session) => {
-    const nameMatch = session.title.toLowerCase().startsWith(searchText.toLowerCase());
+    const nameMatch = session.title
+      .toLowerCase()
+      .startsWith(searchText.toLowerCase());
     if (filterCriteria === 'attend') {
       return session.status.toLowerCase() === 'attend' && nameMatch;
     } else if (filterCriteria === 'pending') {
@@ -46,27 +58,64 @@ const index = () => {
         <View style={styles.tabs}>
           <Pressable
             onPress={() => handleTabPress('attend')}
-            style={[styles.tab, filterCriteria === 'attend' && styles.activeTab]}
+            style={[
+              styles.tab,
+              filterCriteria === 'attend' && styles.activeTab,
+            ]}
           >
-            <Text style={[styles.textTap, filterCriteria === 'attend' && styles.activeTextTab]}>Attend</Text>
+            <Text
+              style={[
+                styles.textTap,
+                filterCriteria === 'attend' && styles.activeTextTab,
+              ]}
+            >
+              Attend
+            </Text>
           </Pressable>
           <Pressable
             onPress={() => handleTabPress('late')}
             style={[styles.tab, filterCriteria === 'late' && styles.activeTab]}
           >
-            <Text style={[styles.textTap, filterCriteria === 'late' && styles.activeTextTab]}>Late</Text>
+            <Text
+              style={[
+                styles.textTap,
+                filterCriteria === 'late' && styles.activeTextTab,
+              ]}
+            >
+              Late
+            </Text>
           </Pressable>
           <Pressable
             onPress={() => handleTabPress('absence')}
-            style={[styles.tab, filterCriteria === 'absence' && styles.activeTab]}
+            style={[
+              styles.tab,
+              filterCriteria === 'absence' && styles.activeTab,
+            ]}
           >
-            <Text style={[styles.textTap, filterCriteria === 'absence' && styles.activeTextTab]}>Absence</Text>
+            <Text
+              style={[
+                styles.textTap,
+                filterCriteria === 'absence' && styles.activeTextTab,
+              ]}
+            >
+              Absence
+            </Text>
           </Pressable>
           <Pressable
             onPress={() => handleTabPress('pending')}
-            style={[styles.tab, filterCriteria === 'pending' && styles.activeTab]}
+            style={[
+              styles.tab,
+              filterCriteria === 'pending' && styles.activeTab,
+            ]}
           >
-            <Text style={[styles.textTap, filterCriteria === 'pending' && styles.activeTextTab]}>Pending</Text>
+            <Text
+              style={[
+                styles.textTap,
+                filterCriteria === 'pending' && styles.activeTextTab,
+              ]}
+            >
+              Pending
+            </Text>
           </Pressable>
         </View>
       </View>
