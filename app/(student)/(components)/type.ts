@@ -6,7 +6,7 @@ export type DataModulesTyped = {
 
 export type QuizzesListTyped = {
   name: string;
-  startDate: string;
+  startTime: string;
   startTime: string;
   quizGrade: number;
 };
@@ -30,13 +30,14 @@ export type QuestionsMcqTyped = {
 };
 
 export type quizDetailsTyped = {
-  desc?: string | null;
-  startDate: string;
-  endDate: string;
+  quizId: number;
+  studentId: number;
+  moduleId: number;
+  startTime: string;
+  endTime: string;
   instructorName: string;
   totalDuration: number;
   totalScore: number;
-  totalQuestions: number;
 };
 
 export interface QuestionTyped {
@@ -51,7 +52,7 @@ export interface QuestionTyped {
 export type ExamsTyped = {
   id: number;
   title: string;
-  date: string;
+  Time: string;
   startTime: string;
   duration: string;
   status: string;
@@ -61,7 +62,7 @@ export type ExamsTyped = {
 export type SessionsTyped = {
   id: number;
   title: string;
-  date: string;
+  Time: string;
   duration: string;
   status: string;
 };

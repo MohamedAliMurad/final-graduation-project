@@ -1,8 +1,6 @@
 import React from 'react';
 import { Box, Flex, Heading, Text, VStack, View } from 'native-base';
 import { FlatList, StyleSheet } from 'react-native';
-
-import { quizDetails } from './quizDetails';
 import {
   Fontisto,
   FontAwesome5,
@@ -10,6 +8,7 @@ import {
   Ionicons,
   Entypo,
 } from '@expo/vector-icons';
+import { quizDetails } from './quizDetails';
 
 type ItemData = {
   id: string;
@@ -38,7 +37,7 @@ const Item = ({ title }: ItemProps) => (
   </Box>
 );
 
-const Details = quizDetails;
+const Details = quizDetails[0];
 
 const QuizDetailsComponent = () => {
   return (
@@ -48,22 +47,13 @@ const QuizDetailsComponent = () => {
         <Heading style={styles.heading}>Details</Heading>
       </Box>
       <Flex>
-        <Flex style={styles.flexContainer}>
-          <Box style={styles.iconBox}>
-            <Entypo name="list" size={30} color="black" />
-          </Box>
-          <Flex style={styles.infoBox}>
-            <Text style={styles.boldText}>15</Text>
-            <Text style={styles.grayText}>Multiple Choice Questions</Text>
-          </Flex>
-        </Flex>
 
         <Flex style={styles.flexContainer}>
           <Box style={styles.iconBox}>
             <Ionicons name="timer-sharp" size={30} color="black" />
           </Box>
           <Flex style={styles.infoBox}>
-            <Text style={styles.boldText}>2 mins</Text>
+            <Text style={styles.boldText}>{Details.totalDuration}</Text>
             <Text style={styles.grayText}>Time Duration</Text>
           </Flex>
         </Flex>
@@ -73,8 +63,8 @@ const QuizDetailsComponent = () => {
             <Fontisto name="date" size={28} color="black" />
           </Box>
           <Flex style={styles.infoBox}>
-            <Text style={styles.boldText}>10:10 PM</Text>
-            <Text style={styles.grayText}>Start Date</Text>
+            <Text style={styles.boldText}>{Details.startTime}</Text>
+            <Text style={styles.grayText}>Start Time</Text>
           </Flex>
         </Flex>
 
@@ -83,8 +73,8 @@ const QuizDetailsComponent = () => {
             <Fontisto name="date" size={28} color="black" />
           </Box>
           <Flex style={styles.infoBox}>
-            <Text style={styles.boldText}>11:10 PM</Text>
-            <Text style={styles.grayText}>End Date</Text>
+            <Text style={styles.boldText}>{Details.endTime}</Text>
+            <Text style={styles.grayText}>End Time</Text>
           </Flex>
         </Flex>
 
@@ -93,7 +83,7 @@ const QuizDetailsComponent = () => {
             <FontAwesome5 name="chalkboard-teacher" size={28} color="black" />
           </Box>
           <Flex style={styles.infoBox}>
-            <Text style={styles.boldText}>DR.Ahmed Emad</Text>
+            <Text style={styles.boldText}>{Details.instructorName}</Text>
             <Text style={styles.grayText}>Instructor Name</Text>
           </Flex>
         </Flex>
@@ -103,8 +93,8 @@ const QuizDetailsComponent = () => {
             <SimpleLineIcons  name="badge" size={30} color="black" />
           </Box>
           <Flex style={styles.infoBox}>
-            <Text style={styles.boldText}>30 mark</Text>
-            <Text style={styles.grayText}>Multiple Choice Questions</Text>
+            <Text style={styles.boldText}>{Details.totalScore}</Text>
+            <Text style={styles.grayText}>Total Mark</Text>
           </Flex>
         </Flex>
       </Flex>
@@ -169,6 +159,27 @@ const styles = StyleSheet.create({
   },
   grayText: {
     color: 'gray',
+  },
+  item: {
+    flexDirection: 'row',
+    marginVertical: 5,
+  },
+  bullet: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#F19A1A',
+    marginHorizontal: 5,
+  },
+  itemText: {
+    fontSize: 16,
+  },
+  italicText: {
+    fontStyle: 'italic',
+    fontSize: 16,
+    color: 'gray',
+    textAlign: 'center',
+    marginTop: 10,
   },
 });
 
