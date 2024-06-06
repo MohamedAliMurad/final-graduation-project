@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text } from 'react-native';
 import { Box, View } from 'native-base';
 import { Link } from 'expo-router';
+import moment from 'moment';
 
 const ExamRules = ({Enroll, TotalDuration}:{Enroll:boolean, TotalDuration:number}) => {
+
   return (
     <Box style={styles.container}>
      {
@@ -11,7 +13,7 @@ const ExamRules = ({Enroll, TotalDuration}:{Enroll:boolean, TotalDuration:number
         ? <Link style={styles.link}
           href={{
             pathname: '/ExamScreen/',
-            params: { TotalDuration: TotalDuration }
+            params: { TotalDuration: TotalDuration,}
           }}
         >
         <Text style={styles.linkText}>Enroll</Text>

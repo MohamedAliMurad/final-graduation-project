@@ -3,16 +3,15 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 import sampleQuestions from '../(components)/questions';
 import QuestionsComponent from '../(components)/QuestionsComponent';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
 const sampleQuestion = sampleQuestions;
 const index = () => {
-
-  const navigation = useNavigation();
+  // Navigation
   const params = useLocalSearchParams<{ TotalDuration: string }>();
   const { TotalDuration } = params;
   useEffect(() => {
-    navigation.setOptions({ title: TotalDuration });
+    // navigation.setOptions({ title: TotalDuration });
   }, [TotalDuration]);
 
   // State variables
