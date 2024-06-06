@@ -1,154 +1,82 @@
-import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  Alert,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import Subject from '../(components)/Subject';
 import { Link } from 'expo-router';
-
-interface Course {
-  id: number;
-  title: string;
-  instructor: string;
-  description: string;
-}
-
-const courses : Course [] = [
-  {
-    id: 1,
-    title: 'Mathematics 101',
-    instructor: 'Dr. John Smith',
-    description: 'Introduction to basic mathematical concepts.',
-  },
-  {
-    id: 2,
-    title: 'Computer Science Fundamentals',
-    instructor: 'Prof. Sarah Johnson',
-    description: 'Fundamental concepts of computer science and programming.',
-  },
-  {
-    id: 3,
-    title: 'Literature Appreciation',
-    instructor: 'Dr. Emily Brown',
-    description: 'Exploring classic and contemporary literature.',
-  },
-  {
-    id: 4,
-    title: 'History of Art',
-    instructor: 'Prof. Michael Davis',
-    description: 'Survey of major art movements throughout history.',
-  },
-  {
-    id: 5,
-    title: 'Chemistry for Beginners',
-    instructor: 'Dr. Anna Lee',
-    description: 'Introduction to basic concepts of chemistry.',
-  },
-  {
-    id: 6,
-    title: 'Introduction to Psychology',
-    instructor: 'Dr. Rachel White',
-    description: 'Overview of key concepts and theories in psychology.',
-  },
-  {
-    id: 7,
-    title: 'Introduction to Economics',
-    instructor: 'Prof. David Carter',
-    description: 'Fundamental principles of economics.',
-  },
-  {
-    id: 8,
-    title: 'Music Theory',
-    instructor: 'Dr. James Anderson',
-    description: 'Exploration of music theory and composition.',
-  },
-  {
-    id: 9,
-    title: 'Introduction to Philosophy',
-    instructor: 'Prof. Elizabeth Clark',
-    description: 'Survey of major philosophical ideas and thinkers.',
-  },
-  {
-    id: 10,
-    title: 'Environmental Science',
-    instructor: 'Dr. Mark Wilson',
-    description: 'Study of the natural environment and human impact on it.',
-  },
-  {
-    id: 11,
-    title: 'Introduction to Sociology',
-    instructor: 'Prof. Laura Taylor',
-    description: 'Overview of key concepts and theories in sociology.',
-  },
-  {
-    id: 12,
-    title: 'Creative Writing Workshop',
-    instructor: 'Dr. Christopher Moore',
-    description: 'Workshop-style course focusing on creative writing techniques.',
-  },
-  {
-    id: 13,
-    title: 'Introduction to Business Management',
-    instructor: 'Prof. William Roberts',
-    description: 'Fundamental concepts of business organization and management.',
-  },
-  {
-    id: 14,
-    title: 'Introduction to Linguistics',
-    instructor: 'Dr. Maria Garcia',
-    description: 'Study of the structure and function of human language.',
-  },
-  {
-    id: 15,
-    title: 'Physical Fitness and Health',
-    instructor: 'Coach Daniel Johnson',
-    description: 'Promoting physical fitness and healthy lifestyle habits.',
-  },
-  {
-    id: 16,
-    title: 'Introduction to Political Science',
-    instructor: 'Prof. Jennifer Adams',
-    description: 'Overview of key concepts and theories in political science.',
-  },
-  {
-    id: 17,
-    title: 'Introduction to Astronomy',
-    instructor: 'Dr. Robert Turner',
-    description: 'Exploration of celestial objects and phenomena in the universe.',
-  },
-  {
-    id: 18,
-    title: 'Introduction to Film Studies',
-    instructor: 'Prof. Olivia Martinez',
-    description: 'Analysis of film as an art form and cultural artifact.',
-  },
-  {
-    id: 19,
-    title: 'Introduction to Nutrition',
-    instructor: 'Dr. Kimberly Wilson',
-    description: 'Study of the role of nutrients in human health and wellness.',
-  },
-  {
-    id: 20,
-    title: 'Introduction to Anthropology',
-    instructor: 'Prof. Andrew Thompson',
-    description: 'Overview of key concepts and theories in anthropology.',
-  },
-  // Add more courses as needed
-];
+import CoursesData from '../(components)/CoursesData';
+import NetInfo, { useNetInfo } from '@react-native-community/netinfo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LocationObject } from '../(components)/type';
 
 const getColor = (id: number) => {
   // Define your logic to return a color based on the course ID
   // For demonstration purposes, I'm simply returning a color based on the ID
-  const colors = ['#FFB976', '#00CFE8', '#28C76F', '#FFB976', '#00CFE8', '#28C76F'];
+  const colors = [
+    '#FFB976',
+    '#00CFE8',
+    '#28C76F',
+    '#FFB976',
+    '#00CFE8',
+    '#28C76F',
+  ];
   return colors[(id - 1) % colors.length];
 };
 
+let courses = CoursesData;
 const Home = () => {
+  const netinfo = useNetInfo();
+  const [isConnected, setIsConnected] = useState<boolean | null>(null);
+  const [cached, setCached] = useState<LocationObject | null>(null);
+
+  const checkCachedLocation = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('location');
+      if (jsonValue != null) {
+        const parsedValue: LocationObject = JSON.parse(jsonValue);
+        console.log('Parsed Value:', parsedValue); // Log parsed value to inspect the structure
+        // AsyncStorage.clear();
+        setCached(parsedValue);
+      }
+    } catch (err) {
+      Alert.alert(`Error, Can't get the cached location: `, String(err));
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      NetInfo.fetch().then((state) => {
+        if (isConnected === true && state.isConnected === true) {
+          console.log('Previous state isConnected:', isConnected);
+          console.log('Current state isConnected:', state.isConnected);
+          checkCachedLocation();
+        }
+        setIsConnected(state.isConnected);
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isConnected]);
+
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
         <View>
           <Text style={styles.welcomeText}>Welcome back</Text>
           <Text style={styles.userName}>Mohamed Ali</Text>
+          {cached == null ? (
+            <Text style={{ color: 'black' }}>Yalahwiiiii</Text>
+          ) : (
+            <Text style={{ marginHorizontal: 5 }}>
+              {cached?.latitude} {cached?.longitude} {cached?.timeStamp}
+            </Text>
+          )}
         </View>
         {/* <Link href={{ pathname: '/(student)/aaaatttt/aaaatttt' }} asChild> */}
         <Link href={{ pathname: '(student)/Notifications/' }} asChild>
@@ -161,7 +89,7 @@ const Home = () => {
       <View style={styles.middleSection}>
         <ScrollView>
           <View style={styles.subjectContainer}>
-            {courses.map(course => (
+            {courses.map((course) => (
               <Subject
                 key={course.id}
                 color={getColor(course.id)}

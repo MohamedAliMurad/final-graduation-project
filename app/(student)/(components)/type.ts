@@ -38,11 +38,6 @@ export type quizDetailsTyped = {
   totalScore: number;
   totalQuestions: number;
 };
-export type LocationObject = {
-  latitude: number | null;
-  longitude: number | null;
-  timeStamp: number;
-};
 
 export interface QuestionTyped {
   id: number;
@@ -69,4 +64,17 @@ export type SessionsTyped = {
   date: string;
   duration: string;
   status: string;
+};
+
+export interface Course {
+  id: number;
+  title: string;
+  instructor: string;
+  description: string;
+}
+
+export type LocationObject = {
+  latitude: number | null;
+  longitude: number | null;
+  timeStamp: number;
 };
