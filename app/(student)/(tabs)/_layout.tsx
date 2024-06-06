@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, NativeBaseProvider, theme } from 'native-base';
 import { Slot, Stack, Tabs } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 const _layout = () => {
@@ -13,6 +13,7 @@ const _layout = () => {
           headerShown: true,
           headerTintColor: '#fff',
           tabBarActiveTintColor: '#F19A1A',
+          tabBarInactiveTintColor: '#ddd',
           headerStyle: { backgroundColor: '#F19A1A' },
           tabBarStyle: { height:60 }, // Add margin top to all tabs
         }}
@@ -25,7 +26,7 @@ const _layout = () => {
             title: '',
 
             tabBarIcon: ({ color }) => (
-              <Entypo name="home" size={35} color={color} />
+              <Ionicons name="home-outline" size={32} color={color} />
             ),
           }}
         />
@@ -40,7 +41,7 @@ const _layout = () => {
             headerShown: false,
 
             tabBarIcon: ({ color }) => (
-              <Entypo name="chat" size={35} color={color} />
+              <Ionicons name="chatbox-outline" size={32} color={color} />
             ),
           }}
         />
@@ -54,7 +55,7 @@ const _layout = () => {
             headerShown: false,
 
             tabBarIcon: ({ color }) => (
-              <FontAwesome name="user" size={35} color={color} />
+              <FontAwesome name="user-o" size={32} color={color} />
             ),
           }}
         />

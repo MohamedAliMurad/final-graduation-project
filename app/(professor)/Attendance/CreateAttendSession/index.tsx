@@ -227,7 +227,7 @@ const Index = () => {
 
   const renderLocationMap = () => (
     <View style={styles.locationContainer}>
-      <MapView style={styles.map}>
+      <MapView style={styles.map} zoomEnabled={true}>
         {userLocation && (
           <Marker
             coordinate={{

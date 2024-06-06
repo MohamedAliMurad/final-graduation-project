@@ -148,7 +148,7 @@ const Home = () => {
       <View style={styles.topSection}>
         <View>
           <Text style={styles.welcomeText}>Welcome back</Text>
-          <Text style={styles.userName}>Mohamed Ali</Text>
+          <Text style={styles.userName}>Dr. Ahmed Emad</Text>
         </View>
         <Link href={{ pathname: '/(professor)/Notifications/' }} asChild>
           <Pressable>

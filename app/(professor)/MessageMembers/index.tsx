@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image, TextInput, Alert } from 'react-native';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  Image,
+  TextInput,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
 import { Link } from 'expo-router';
 
 interface ChatItem {
@@ -12,13 +20,13 @@ interface ChatItem {
   unreadMessages: number;
 }
 
-const ChatListScreen = () => {
+const MessageMembers = () => {
   const [searchText, setSearchText] = useState('');
   const [chatData, setChatData] = useState<ChatItem[]>([
     {
       id: '1',
       name: 'John',
-      lastMessage: 'Hey, how are you? I am a student.',
+      lastMessage: 'Hey, how are you? I am a student. ',
       photo: require('../../../assets/profile_img.jpg'),
       unreadMessages: 2,
     },
@@ -137,51 +145,24 @@ const ChatListScreen = () => {
     // Other chat items...
   ]);
 
-
   const handleSearch = (text: string) => {
     setSearchText(text);
   };
 
-  const handleDeleteMessage = (chatId: string) => {
-    Alert.alert(
-      'Delete Message',
-      'Are you sure you want to delete this message?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => {
-            const updatedChatData = chatData.filter((chat) => chat.id !== chatId);
-            setChatData(updatedChatData);
-          },
-        },
-      ],
-      { cancelable: true }
-    );
-  };
-
   const renderChatItem = ({ item }: { item: ChatItem }) => (
     <View style={styles.link}>
-      <TouchableOpacity
-        onLongPress={handleDeleteMessage.bind(null, item.id)}
-        style={styles.chatItem}
-      >
-        <Link push href={{ pathname: '/MessageScreen/', params: { user: item.name } }} style={styles.link}>
-          <View style={styles.chatItem2}>
-            <Image source={item.photo} style={styles.userPhoto} alt={item.name} />
-            <View style={styles.chatText}>
-              <Text style={styles.chatName}>{item.name}</Text>
-              <Text numberOfLines={1} ellipsizeMode="tail" style={styles.lastMessage}>
-                {item.lastMessage.substring(0, 40).padEnd(40, '')}
-              </Text>
+      <Swipeable>
+        <View style={styles.chatItem}>
+          <Link push href={{ pathname: '/MessageScreen/', params: { user: item.name } }} style={styles.link}>
+            <View style={styles.chatItem2}>
+              <Image source={item.photo} style={styles.userPhoto} alt={item.name} />
+              <View style={styles.chatText}>
+                <Text style={styles.chatName}>{item.name}</Text>
+              </View>
             </View>
-          </View>
-        </Link>
-      </TouchableOpacity>
+          </Link>
+        </View>
+      </Swipeable>
     </View>
   );
 
@@ -209,11 +190,6 @@ const ChatListScreen = () => {
         <Ionicons name="search" size={30} color="#F19A1A" />
       </View>
       <View style={styles.chats}>{renderChatList()}</View>
-      <View style={styles.chatButton} >
-        <Link push href="(professor)/MessageMembers">
-        <AntDesign name="pluscircleo" color="#F19A1A" size={44} />
-        </Link>
-      </View>
     </GestureHandlerRootView>
   );
 };
@@ -230,7 +206,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 10,
-    marginTop: 40,
   },
   searchInput: {
     flex: 1,
@@ -243,7 +218,6 @@ const styles = StyleSheet.create({
   },
   chats: {
     flex: 1,
-    position: 'relative', // Make the container relative for positioning the chat button
   },
   chatItem: {
     flexDirection: 'row',
@@ -280,26 +254,21 @@ const styles = StyleSheet.create({
     color: '#666666',
     width: '70%', // Adjust width as needed
   },
+  deleteButton: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 75,
+  },
   chatListContent: {
     flexGrow: 1,
   },
   link: {
     width: '100%', // Adjust width as needed
   },
-  swipeable: {
-    width: '100%', // Adjust width as needed
-  },
-  chatButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20, // Adjust right position as needed
-    backgroundColor: 'rgba(1, 1, 1, 0)', // Set opacity to 0.8
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  // swipeable: {
+  //   width: '100%', // Adjust width as needed
+  // },
 });
 
-export default ChatListScreen;
+export default MessageMembers;

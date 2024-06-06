@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image, TextInput, Alert } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Link } from 'expo-router';
 
@@ -210,8 +210,8 @@ const ChatListScreen = () => {
       </View>
       <View style={styles.chats}>{renderChatList()}</View>
       <View style={styles.chatButton} >
-        <Link push href="/MessageMembers">
-          <Ionicons name="chatbubbles" size={40} color="#F19A1A" />
+        <Link push href="(student)/MessageMembers">
+          <AntDesign name="pluscircleo" color="#F19A1A" size={44} />
         </Link>
       </View>
     </GestureHandlerRootView>
@@ -280,19 +280,6 @@ const styles = StyleSheet.create({
     color: '#666666',
     width: '70%', // Adjust width as needed
   },
-  // unreadMessagesContainer: {
-  //   backgroundColor: 'red',
-  //   borderRadius: 15,
-  //   paddingHorizontal: 8,
-  //   paddingVertical: 4,
-  //   alignItems: 'center', // Center the text horizontally
-  //   justifyContent: 'center', // Center the text vertically
-  // },
-  // unreadMessages: {
-  //   color: 'white',
-  //   fontSize: 12,
-  //   fontWeight: 'bold',
-  // },
   chatListContent: {
     flexGrow: 1,
   },
@@ -304,8 +291,8 @@ const styles = StyleSheet.create({
   },
   chatButton: {
     position: 'absolute',
-    bottom: 20,
-    right: 20, // Adjust right position as needed
+    bottom: 30,
+    right: 30, // Adjust right position as needed
     backgroundColor: 'rgba(1, 1, 1, 0)', // Set opacity to 0.8
     width: 50,
     height: 50,

@@ -31,6 +31,10 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "hermes": {
+      "enabled": true,
+      "commandUnlink": "node node_modules/hermes-engine/unlink"
     }
   }
 }
