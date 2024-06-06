@@ -9,6 +9,7 @@ import {
   Entypo,
 } from '@expo/vector-icons';
 import { quizDetails } from './quizDetails';
+import { quizDetailsTyped } from './type';
 
 type ItemData = {
   id: string;
@@ -37,9 +38,9 @@ const Item = ({ title }: ItemProps) => (
   </Box>
 );
 
-const Details = quizDetails[0];
 
-const QuizDetailsComponent = () => {
+
+const QuizDetailsComponent = ({Details}: {Details: quizDetailsTyped[]}) => {
   return (
     <View style={styles.container}>
       <VStack >
@@ -106,7 +107,7 @@ const QuizDetailsComponent = () => {
         data={DATA}
         keyExtractor={(item) => item.id}
       />
-      <Text style={styles.italicText}>ALL THE BEST!!</Text>
+      {/* <Text style={styles.italicText}>ALL THE BEST!!</Text> */}
     </VStack>
     </View>
   );
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
     fontWeight: 'medium',
   },
   flexContainer: {
-    marginBottom: 10,
+    marginBottom: 15,
     marginHorizontal: 12,
     flexDirection: 'row',
     alignItems: 'center',

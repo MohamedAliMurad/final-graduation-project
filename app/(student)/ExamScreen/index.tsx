@@ -1,14 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 import sampleQuestions from '../(components)/questions';
 import QuestionsComponent from '../(components)/QuestionsComponent';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 
 const sampleQuestion = sampleQuestions;
 const index = () => {
+
+  const navigation = useNavigation();
+  const params = useLocalSearchParams<{ TotalDuration: string }>();
+  const { TotalDuration } = params;
+  useEffect(() => {
+    navigation.setOptions({ title: TotalDuration });
+  }, [TotalDuration]);
+
   // State variables
-  const [totalDuration, setTotalDuration] = useState<number>(10); // Default duration of 10 minutes
-  const [timeLeft, setTimeLeft] = useState<number>(totalDuration * 60); // Time left in seconds
+  // const [totalDuration, setTotalDuration] = useState<number>(TotalDuration); // Default duration of 10 minutes
+  const [timeLeft, setTimeLeft] = useState<number>(TotalDuration * 60); // Time left in seconds
   const [score, setScore] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState<boolean>(false);
 
@@ -20,25 +29,22 @@ const index = () => {
         <View style={styles.score}>
           <Text style={styles.scoreText}>
             {submitted
-              ? 'Time Left: Finished'
-              : `Time Left: ${Math.floor(timeLeft / 60)}:${(
+              ? 'Finished'
+              : `${Math.floor(timeLeft / 60)}:${(
                   '0' +
                   (timeLeft % 60)
                 ).slice(-2)}`}
           </Text>
-          <Text style={styles.scoreText}>
+          {/* <Text style={styles.scoreText}>
             Score: {score !== null ? `${score}/${sampleQuestion.length}` : ''}
-          </Text>
+          </Text> */}
         </View>
       </View>
       {/* Questions component section */}
       <ScrollView contentContainerStyle={styles.form}>
         <QuestionsComponent
           sampleQuestions={sampleQuestion}
-          // duration={totalDuration}
-          // setTotalDuration={setTotalDuration}
           setScore={setScore}
-          // score={score}
           timeLeft={timeLeft}
           setTimeLeft={setTimeLeft}
           submitted={submitted}
@@ -85,12 +91,15 @@ const styles = StyleSheet.create({
   },
   score: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   scoreText: {
     color: 'white',
     width: 150,
+    textAlign: 'center',
+    fontSize: 25,
+    fontWeight: 'bold',
   },
 });
 

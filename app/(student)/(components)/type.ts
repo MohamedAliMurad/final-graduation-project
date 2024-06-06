@@ -33,11 +33,18 @@ export type quizDetailsTyped = {
   quizId: number;
   studentId: number;
   moduleId: number;
+  enroll: boolean;
   startTime: string;
   endTime: string;
   instructorName: string;
   totalDuration: number;
   totalScore: number;
+  submission: {
+    finalGrade: number;
+    takenTime: number;
+    status: string;
+    submitAt: string;
+  };
 };
 
 export interface QuestionTyped {

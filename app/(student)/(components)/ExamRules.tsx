@@ -1,16 +1,22 @@
-import React from 'react';
-import { StyleSheet, Text } from 'react-native';
-import { Box } from 'native-base';
+import React, { useEffect } from 'react';
+import { Button, StyleSheet, Text } from 'react-native';
+import { Box, View } from 'native-base';
 import { Link } from 'expo-router';
-const ExamRules = () => {
+
+const ExamRules = ({Enroll, TotalDuration}:{Enroll:boolean, TotalDuration:number}) => {
   return (
     <Box style={styles.container}>
-      <Link
-        href={'/ExamScreen/'}
-        style={styles.link}
-      >
+     {
+        Enroll
+        ? <Link style={styles.link}
+          href={{
+            pathname: '/ExamScreen/',
+            params: { TotalDuration: TotalDuration }
+          }}
+        >
         <Text style={styles.linkText}>Enroll</Text>
-      </Link>
+      </Link> : <View style={styles.link}><Text style={[styles.linkText, {textAlign:'center'}]}>Enroll</Text></View>
+     }
     </Box>
   );
 };
@@ -29,6 +35,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   linkText: {
+    backgroundColor: '#F19A1A',
     color: 'white',
     fontWeight: 'bold',
     fontSize: 25,
