@@ -17,8 +17,6 @@ import { router } from 'expo-router';
 
 interface Props {
   sampleQuestions: QuestionTyped[];
-  score: number | null;
-  setScore: React.Dispatch<React.SetStateAction<number | null>>;
   timeLeft: number;
   setTimeLeft: React.Dispatch<React.SetStateAction<number>>;
   submitted: boolean;
@@ -27,8 +25,6 @@ interface Props {
 
 const QuestionsComponent = ({
   sampleQuestions = [],
-  setScore,
-  score,
   timeLeft,
   setTimeLeft,
   submitted,
@@ -40,6 +36,8 @@ const QuestionsComponent = ({
   const [timeEnroll] = useState<string>(moment().format('hh:mm:ss')); // Initialize with current time
   const [timeSubmit, setTimeSubmit] = useState<string | null>(null); // Initialize as null
   const [timeTaken, setTimeTaken] = useState<number | null>(null); // Initialize as null
+  const [score, setScore] = useState<number>(0);
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -88,7 +86,7 @@ const QuestionsComponent = ({
     if (submitted) {
       const calculatedScore = calculateScore();
       setScore(calculatedScore);
-      console.log('Score:', calculatedScore);
+      console.log('Score:', score);
     }
   }, [submitted]);
 
@@ -112,7 +110,7 @@ const QuestionsComponent = ({
     }
   }, [timeSubmit, timeEnroll]);
 
-  // Handle
+  // Handle back press to confirm exit if exam is not submitted yet and prevent going back if exam is submitted or time is up already
   const handleSubmit = () => {
     if (!submitted) {
       setSubmitted(true);

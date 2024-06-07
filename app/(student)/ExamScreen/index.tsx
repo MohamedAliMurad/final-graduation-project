@@ -16,7 +16,6 @@ const Index = () => {
 
   // State variables
   const [timeLeft, setTimeLeft] = useState<number>(parseInt(exam?.details.totalDuration) * 60); // Convert TotalDuration to integer
-  const [score, setScore] = useState<number>(0);
   const [submitted, setSubmitted] = useState<boolean>(false);
 
 
