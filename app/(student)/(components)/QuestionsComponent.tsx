@@ -16,7 +16,7 @@ import moment from 'moment';
 import { router } from 'expo-router';
 
 interface Props {
-  exam:quizDataTyped[];
+  exam: quizDataTyped;
   sampleQuestions: QuestionTyped[];
   timeLeft: number;
   setTimeLeft: React.Dispatch<React.SetStateAction<number>>;
@@ -35,30 +35,13 @@ const QuestionsComponent = ({
   const [selectedOptionIndices, setSelectedOptionIndices] = useState<
     (string | string[] | null)[]
   >(new Array(sampleQuestions.length).fill(null));
-  const [timeEnroll] = useState<string>(moment().format('hh:mm:ss')); // Initialize with current time
+  const [timeEnroll] = useState<string>(moment().format('HH:mm:ss')); // Initialize with current time
   const [timeSubmit, setTimeSubmit] = useState<string | null>(null); // Initialize as null
-  var FinalGrade: number | 0 = 0;
-  var timeTaken: number | 0 = 0
-  const [examDetails] = useState<quizDataTyped[]>(exam?.details);
-  console.log('Exam Details:', examDetails );
+  const [finalGrade, setFinalGrade] = useState<number>(0);
+  const [takenTime, setTakenTime] = useState<number>(0);
+  const [examDetails] = useState<quizDataTyped[]>(exam.details || []);
 
-  // axios call to post the exam details
-  // const postExamDetails = async () => {
-  //   try {
-  //     const response = await axios.post('ENDPOINT API LINK', {
-  //       quizId: exam.id,
-  //       moduleId: exam.moduleId,
-  //       studentId: exam.studentId,
-  //       finalGrade: FinalGrade,
-  //       takenTime: timeTaken,
-  //     });
-  //     console.log('Response:', response.data);
-  //   } catch (error) {
-  //     console.error('Error:', error);
-  //   }
-  //
-
-
+  // Calculate the remaining time
   useEffect(() => {
     const interval = setInterval(() => {
       setTimeLeft((prevTime) => {
@@ -74,20 +57,26 @@ const QuestionsComponent = ({
     return () => clearInterval(interval);
   }, []);
 
-  // Handle back press to confirm exit if exam is not submitted yet and prevent going back if exam is submitted or time is up already
+  // Handle back press to confirm exit if the exam is not submitted yet
   useEffect(() => {
     const backAction = () => {
-      if (true) {
+      if (!submitted) {
         Alert.alert(
           'Alert',
-          'You have not submitted the exam. Are you sure you want to exit?',
+          'Are you sure you want to exit?',
           [
             {
               text: 'Cancel',
               onPress: () => null,
               style: 'cancel',
             },
-            { text: 'Exit', onPress: () => { setSubmitted(true); router.replace('/(student)/(tabs)/Home'); } },
+            {
+              text: 'Exit',
+              onPress: () => {
+                setSubmitted(true);
+                router.replace('/(student)/(tabs)/Home');
+              },
+            },
           ],
           { cancelable: false }
         );
@@ -96,7 +85,10 @@ const QuestionsComponent = ({
       return false;
     };
 
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
 
     return () => backHandler.remove();
   }, [submitted]);
@@ -104,27 +96,26 @@ const QuestionsComponent = ({
   // Calculate the score when the exam is submitted
   useEffect(() => {
     if (submitted) {
-      FinalGrade = calculateScore();
-      console.log('Score ==>> ', FinalGrade);
+      setFinalGrade(calculateScore());
+      console.log(calculateScore())
+      router.replace('/(student)/(tabs)/Home');
     }
-  }, [submitted]);
+  }, [submitted, selectedOptionIndices]);
 
   // Calculate the time taken when timeSubmit is set
   useEffect(() => {
     if (timeSubmit && timeEnroll) {
-      timeTaken = moment
-        .duration(
-          moment(timeSubmit, 'hh:mm:ss').diff(moment(timeEnroll, 'hh:mm:ss'))
-        )
+      const takenTime = moment
+        .duration(moment(timeSubmit, 'HH:mm:ss').diff(moment(timeEnroll, 'HH:mm:ss')))
         .asMinutes();
-      console.log('Time taken:', timeTaken);
+      setTakenTime(takenTime);
+      console.log(takenTime)
     }
-  }, [timeSubmit, timeEnroll ]);
+  }, [timeSubmit, timeEnroll]);
 
   const handleSubmit = () => {
     setSubmitted(true);
-    setTimeSubmit(moment().format('hh:mm:ss'));
-    // router.replace('/(student)/(tabs)/Home'); // Redirect to the home screen
+    setTimeSubmit(moment().format('HH:mm:ss'));
   };
 
   // Handle auto-submit when time is up
@@ -163,6 +154,8 @@ const QuestionsComponent = ({
       return newState;
     });
   };
+
+  // Calculate the score based on the selected options
 
   // Calculate the score based on the selected options
   const calculateScore = () => {
@@ -262,11 +255,11 @@ const QuestionsComponent = ({
         <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}>
           <Text style={styles.submitButtonText}>Submit</Text>
         </TouchableOpacity>
-      )
-    }
+      )}
     </ScrollView>
   );
 };
+
 export default QuestionsComponent;
 
 const styles = StyleSheet.create({
