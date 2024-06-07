@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { quizDataTyped } from './type';
 
 export const quizData: quizDataTyped[] = [
@@ -25,23 +26,23 @@ export const quizData: quizDataTyped[] = [
   },
   {
     id: 2,
-    title: 'Midterm Math',
-    date: '2024-06-10',
+    title: 'History Final',
+    date: '2024-06-30',
     details: {
       quizId: 2,
       studentId: 1,
       moduleId: 2,
       enroll: true,
-      startTime: '10:00 AM',
-      endTime: '11:00 AM',
-      instructorName: 'Dr. Smith',
+      startTime: '3:00 PM',
+      endTime: '4:00 PM',
+      instructorName: 'Dr. Green',
       totalDuration: 60,
       totalScore: 100,
       submission: {
-        finalGrade: 60,
-        takenTime: 50,
-        status: 'Submitted',
-        submitAt: '10:50 AM',
+        finalGrade: 0,
+        takenTime: 0,
+        status: 'Missed',
+        submitAt: '',
       },
     },
   },
@@ -64,7 +65,7 @@ export const quizData: quizDataTyped[] = [
         takenTime: 30,
         status: 'Submitted',
         submitAt: '10:30 AM',
-      },
+        },
     },
   },
   {
@@ -86,8 +87,8 @@ export const quizData: quizDataTyped[] = [
         takenTime: 0,
         status: 'Pending',
         submitAt: '',
-      },
-    },
+        },
+        },
   },
   {
     id: 5,
@@ -113,23 +114,23 @@ export const quizData: quizDataTyped[] = [
   },
   {
     id: 6,
-    title: 'History Final',
-    date: '2024-06-30',
+    title: 'Midterm Math',
+    date: '2024-06-10',
     details: {
       quizId: 6,
       studentId: 1,
       moduleId: 6,
       enroll: true,
-      startTime: '3:00 PM',
-      endTime: '4:00 PM',
-      instructorName: 'Dr. Green',
+      startTime: '10:00 AM',
+      endTime: '11:00 AM',
+      instructorName: 'Dr. Smith',
       totalDuration: 60,
       totalScore: 100,
       submission: {
-        finalGrade: 0,
-        takenTime: 0,
-        status: 'Missed',
-        submitAt: '',
+        finalGrade: 60,
+        takenTime: 50,
+        status: 'Submitted',
+        submitAt: '10:50 AM',
       },
     },
   },
@@ -156,3 +157,30 @@ export const quizData: quizDataTyped[] = [
     },
   },
 ];
+
+
+
+
+
+
+
+
+
+// // Define the API function to fetch quiz data
+// export const fetchQuizData = async (): Promise<quizDataTyped[]> => {
+//   try {
+//     const response = await axios.get<quizDataTyped[]>('https://api.example.com/quizData');
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error fetching quiz data:', error);
+//     throw error;
+//   }
+// };
+
+// // Example usage of the fetchQuizData function
+// fetchQuizData().then((quizData) => {
+//   console.log('Fetched quiz data:', quizData);
+//   quizData = quizData;
+// }).catch((error) => {
+//   console.error('Error:', error);
+// });
