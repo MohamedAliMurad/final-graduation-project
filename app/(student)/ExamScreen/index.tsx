@@ -38,6 +38,7 @@ const Index = () => {
           setTimeLeft={setTimeLeft}
           submitted={submitted}
           setSubmitted={setSubmitted}
+          exam={exam}
         />
       </ScrollView>
     </View>

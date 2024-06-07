@@ -10,12 +10,13 @@ import {
   Alert,
 } from 'react-native';
 import { RadioButton, Checkbox } from 'react-native-paper';
-import { QuestionTyped } from './type';
+import { QuestionTyped, quizDataTyped } from './type';
 import { useFocusEffect } from '@react-navigation/native';
 import moment from 'moment';
 import { router } from 'expo-router';
 
 interface Props {
+  exam:quizDataTyped[];
   sampleQuestions: QuestionTyped[];
   timeLeft: number;
   setTimeLeft: React.Dispatch<React.SetStateAction<number>>;
@@ -24,6 +25,7 @@ interface Props {
 }
 
 const QuestionsComponent = ({
+  exam,
   sampleQuestions = [],
   timeLeft,
   setTimeLeft,
@@ -35,8 +37,26 @@ const QuestionsComponent = ({
   >(new Array(sampleQuestions.length).fill(null));
   const [timeEnroll] = useState<string>(moment().format('hh:mm:ss')); // Initialize with current time
   const [timeSubmit, setTimeSubmit] = useState<string | null>(null); // Initialize as null
-  var FinalGrade: number | null = null;
-  var timeTaken: number | null = null
+  var FinalGrade: number | 0 = 0;
+  var timeTaken: number | 0 = 0
+  const [examDetails] = useState<quizDataTyped[]>(exam?.details);
+  console.log('Exam Details:', examDetails );
+
+  // axios call to post the exam details
+  // const postExamDetails = async () => {
+  //   try {
+  //     const response = await axios.post('http://localhost:3000/examDetails', {
+  //       quizId: exam.id,
+  //       moduleId: exam.moduleId,
+  //       studentId: exam.studentId,
+  //       finalGrade: FinalGrade,
+  //       takenTime: timeTaken,
+  //     });
+  //     console.log('Response:', response.data);
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  //
 
 
   useEffect(() => {
@@ -57,7 +77,7 @@ const QuestionsComponent = ({
   // Handle back press to confirm exit if exam is not submitted yet and prevent going back if exam is submitted or time is up already
   useEffect(() => {
     const backAction = () => {
-      if (!submitted) {
+      if (true) {
         Alert.alert(
           'Alert',
           'You have not submitted the exam. Are you sure you want to exit?',
@@ -104,7 +124,7 @@ const QuestionsComponent = ({
   const handleSubmit = () => {
     setSubmitted(true);
     setTimeSubmit(moment().format('hh:mm:ss'));
-    router.replace('/(student)/(tabs)/Home'); // Redirect to the home screen
+    // router.replace('/(student)/(tabs)/Home'); // Redirect to the home screen
   };
 
   // Handle auto-submit when time is up
