@@ -35,8 +35,8 @@ const QuestionsComponent = ({
   >(new Array(sampleQuestions.length).fill(null));
   const [timeEnroll] = useState<string>(moment().format('hh:mm:ss')); // Initialize with current time
   const [timeSubmit, setTimeSubmit] = useState<string | null>(null); // Initialize as null
-  const [timeTaken, setTimeTaken] = useState<number | null>(null); // Initialize as null
-  const [score, setScore] = useState<number>(0);
+  var FinalGrade: number | null = null;
+  var timeTaken: number | null = null
 
 
   useEffect(() => {
@@ -84,28 +84,19 @@ const QuestionsComponent = ({
   // Calculate the score when the exam is submitted
   useEffect(() => {
     if (submitted) {
-      const FinalGrade = calculateScore();
-      // setScore(calculatedScore);
+      FinalGrade = calculateScore();
       console.log('Score ==>> ', FinalGrade);
     }
   }, [submitted]);
 
-  // Handle auto-submit when time is up
-  // useEffect(() => {
-  //   if (timeLeft === 0 || submitted) {
-  //     handleSubmit();
-  //   }
-  // }, []);
-
   // Calculate the time taken when timeSubmit is set
   useEffect(() => {
     if (timeSubmit && timeEnroll) {
-      const timeTaken = moment
+      timeTaken = moment
         .duration(
           moment(timeSubmit, 'hh:mm:ss').diff(moment(timeEnroll, 'hh:mm:ss'))
         )
         .asMinutes();
-      setTimeTaken(timeTaken);
       console.log('Time taken:', timeTaken);
     }
   }, [timeSubmit, timeEnroll ]);
@@ -113,24 +104,17 @@ const QuestionsComponent = ({
   const handleSubmit = () => {
     setSubmitted(true);
     setTimeSubmit(moment().format('hh:mm:ss'));
+    router.replace('/(student)/(tabs)/Home'); // Redirect to the home screen
   };
 
+  // Handle auto-submit when time is up
   useEffect(() => {
     if (timeLeft === 0) {
       handleSubmit();
     }
   }, [timeLeft]);
 
-  // Handle back press to confirm exit if exam is not submitted yet and prevent going back if exam is submitted or time is up already
-  // const handleSubmit = () => {
-  //   setSubmitted(true);
-  //   setTimeLeft(0);
-  //   if (submitted) {
-  //     setTimeSubmit(moment().format('hh:mm:ss'));
-  //     router.replace('/(student)/(tabs)/Home/')
-  //   }
-  // };
-
+  // Handle option press for multiple-choice and optional-choice questions
   const handleOptionPress = (questionIndex: number, optionId: string) => {
     if (submitted || timeLeft === 0) return;
     setSelectedOptionIndices((prevState) => {
@@ -140,6 +124,7 @@ const QuestionsComponent = ({
     });
   };
 
+  // Handle checkbox press for optional-choice questions
   const handleCheckboxPress = (questionIndex: number, optionId: string) => {
     if (submitted || timeLeft === 0) return;
     setSelectedOptionIndices((prevState) => {
@@ -159,6 +144,7 @@ const QuestionsComponent = ({
     });
   };
 
+  // Calculate the score based on the selected options
   const calculateScore = () => {
     return sampleQuestions.reduce((correctAnswersCount, question, index) => {
       const userChoiceIds = selectedOptionIndices[index];
@@ -195,6 +181,7 @@ const QuestionsComponent = ({
     }, 0);
   };
 
+  // Render the questions and options
   const renderQuestions = () => {
     return sampleQuestions.map((question, index) => (
       <View key={question.id} style={styles.questionContainer}>
