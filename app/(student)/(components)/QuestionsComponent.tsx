@@ -67,7 +67,7 @@ const QuestionsComponent = ({
               onPress: () => null,
               style: 'cancel',
             },
-            { text: 'Exit', onPress: () => { setSubmitted(true); router.replace('/(student)/QuizDetails/'); } },
+            { text: 'Exit', onPress: () => { setSubmitted(true); router.replace('/(student)/(tabs)/Home'); } },
           ],
           { cancelable: false }
         );
@@ -84,9 +84,9 @@ const QuestionsComponent = ({
   // Calculate the score when the exam is submitted
   useEffect(() => {
     if (submitted) {
-      const calculatedScore = calculateScore();
-      setScore(calculatedScore);
-      console.log('Score:', score);
+      const FinalGrade = calculateScore();
+      // setScore(calculatedScore);
+      console.log('Score ==>> ', FinalGrade);
     }
   }, [submitted]);
 
@@ -108,16 +108,28 @@ const QuestionsComponent = ({
       setTimeTaken(timeTaken);
       console.log('Time taken:', timeTaken);
     }
-  }, [timeSubmit, timeEnroll]);
+  }, [timeSubmit, timeEnroll ]);
+
+  const handleSubmit = () => {
+    setSubmitted(true);
+    setTimeSubmit(moment().format('hh:mm:ss'));
+  };
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      handleSubmit();
+    }
+  }, [timeLeft]);
 
   // Handle back press to confirm exit if exam is not submitted yet and prevent going back if exam is submitted or time is up already
-  const handleSubmit = () => {
-    if (!submitted) {
-      setSubmitted(true);
-      setTimeSubmit(moment().format('hh:mm:ss'));
-      router.replace('/(student)/(tabs)/Home/')
-    }
-  };
+  // const handleSubmit = () => {
+  //   setSubmitted(true);
+  //   setTimeLeft(0);
+  //   if (submitted) {
+  //     setTimeSubmit(moment().format('hh:mm:ss'));
+  //     router.replace('/(student)/(tabs)/Home/')
+  //   }
+  // };
 
   const handleOptionPress = (questionIndex: number, optionId: string) => {
     if (submitted || timeLeft === 0) return;

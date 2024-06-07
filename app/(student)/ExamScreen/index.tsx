@@ -12,7 +12,7 @@ const Index = () => {
   const params = useLocalSearchParams<{ examId: string }>();
   const { examId } = params;
 
-  const exam = quizData.find((quiz) => quiz.id === examId);
+  const exam = quizData.find((quiz) => quiz.id == examId);
 
   // State variables
   const [timeLeft, setTimeLeft] = useState<number>(parseInt(exam?.details.totalDuration) * 60); // Convert TotalDuration to integer
@@ -34,12 +34,10 @@ const Index = () => {
       <ScrollView contentContainerStyle={styles.form}>
         <QuestionsComponent
           sampleQuestions={sampleQuestions}
-          setScore={setScore}
           timeLeft={timeLeft}
           setTimeLeft={setTimeLeft}
           submitted={submitted}
           setSubmitted={setSubmitted}
-          score={score}
         />
       </ScrollView>
     </View>
