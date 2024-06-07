@@ -40,7 +40,7 @@ const Home = () => {
       const jsonValue = await AsyncStorage.getItem('location');
       if (jsonValue != null) {
         const parsedValue: LocationObject = JSON.parse(jsonValue);
-        console.log('Parsed Value:', parsedValue); // Log parsed value to inspect the structure
+        // console.log('Parsed Value:', parsedValue); // Log parsed value to inspect the structure
         // AsyncStorage.clear();
         setCached(parsedValue);
       }
@@ -53,8 +53,8 @@ const Home = () => {
     const interval = setInterval(() => {
       NetInfo.fetch().then((state) => {
         if (isConnected === true && state.isConnected === true) {
-          console.log('Previous state isConnected:', isConnected);
-          console.log('Current state isConnected:', state.isConnected);
+          // console.log('Previous state isConnected:', isConnected);
+          // console.log('Current state isConnected:', state.isConnected);
           checkCachedLocation();
         }
         setIsConnected(state.isConnected);
@@ -63,7 +63,6 @@ const Home = () => {
 
     return () => clearInterval(interval);
   }, [isConnected]);
-
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>

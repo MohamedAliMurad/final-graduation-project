@@ -5,10 +5,7 @@ import { Link } from 'expo-router';
 const ExamRules = () => {
   return (
     <Box style={styles.container}>
-      <Link
-        href={'/ExamScreen/'}
-        style={styles.link}
-      >
+      <Link href={'/ExamScreen/'} style={styles.link}>
         <Text style={styles.linkText}>Enroll</Text>
       </Link>
     </Box>

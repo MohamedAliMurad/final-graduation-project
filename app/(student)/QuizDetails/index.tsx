@@ -14,10 +14,12 @@ const index = () => {
     navigation.setOptions({ title: examName });
   }, [examName]);
   return (
-    <View style={styles.container}>
+    <ScrollView>
+      <View style={styles.container}>
         <QuizDetailsComponent />
         <ExamRules />
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -27,7 +29,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flexDirection: 'column',
     justifyContent: 'space-between',
-
   },
 });
 
