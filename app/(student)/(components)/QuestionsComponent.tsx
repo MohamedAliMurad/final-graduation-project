@@ -6,14 +6,17 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  BackHandler,
+  Alert,
 } from 'react-native';
 import { RadioButton, Checkbox } from 'react-native-paper';
 import { QuestionTyped } from './type';
+import { useFocusEffect } from '@react-navigation/native';
+import moment from 'moment';
 import { router } from 'expo-router';
 
 interface Props {
   sampleQuestions: QuestionTyped[];
-  setScore: React.Dispatch<React.SetStateAction<number | null>>;
   timeLeft: number;
   setTimeLeft: React.Dispatch<React.SetStateAction<number>>;
   submitted: boolean;
@@ -22,7 +25,6 @@ interface Props {
 
 const QuestionsComponent = ({
   sampleQuestions = [],
-  setScore,
   timeLeft,
   setTimeLeft,
   submitted,
@@ -31,8 +33,11 @@ const QuestionsComponent = ({
   const [selectedOptionIndices, setSelectedOptionIndices] = useState<
     (string | string[] | null)[]
   >(new Array(sampleQuestions.length).fill(null));
+  const [timeEnroll] = useState<string>(moment().format('hh:mm:ss')); // Initialize with current time
+  const [timeSubmit, setTimeSubmit] = useState<string | null>(null); // Initialize as null
+  const [timeTaken, setTimeTaken] = useState<number | null>(null); // Initialize as null
+  const [score, setScore] = useState<number>(0);
 
-  let [home, setHome] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -49,12 +54,70 @@ const QuestionsComponent = ({
     return () => clearInterval(interval);
   }, []);
 
+  // Handle back press to confirm exit if exam is not submitted yet and prevent going back if exam is submitted or time is up already
+  useEffect(() => {
+    const backAction = () => {
+      if (!submitted) {
+        Alert.alert(
+          'Alert',
+          'You have not submitted the exam. Are you sure you want to exit?',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => null,
+              style: 'cancel',
+            },
+            { text: 'Exit', onPress: () => { setSubmitted(true); router.replace('/(student)/QuizDetails/'); } },
+          ],
+          { cancelable: false }
+        );
+        return true;
+      }
+      return false;
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => backHandler.remove();
+  }, [submitted]);
+
+  // Calculate the score when the exam is submitted
   useEffect(() => {
     if (submitted) {
       const calculatedScore = calculateScore();
       setScore(calculatedScore);
+      console.log('Score:', score);
     }
   }, [submitted]);
+
+  // Handle auto-submit when time is up
+  // useEffect(() => {
+  //   if (timeLeft === 0 || submitted) {
+  //     handleSubmit();
+  //   }
+  // }, []);
+
+  // Calculate the time taken when timeSubmit is set
+  useEffect(() => {
+    if (timeSubmit && timeEnroll) {
+      const timeTaken = moment
+        .duration(
+          moment(timeSubmit, 'hh:mm:ss').diff(moment(timeEnroll, 'hh:mm:ss'))
+        )
+        .asMinutes();
+      setTimeTaken(timeTaken);
+      console.log('Time taken:', timeTaken);
+    }
+  }, [timeSubmit, timeEnroll]);
+
+  // Handle back press to confirm exit if exam is not submitted yet and prevent going back if exam is submitted or time is up already
+  const handleSubmit = () => {
+    if (!submitted) {
+      setSubmitted(true);
+      setTimeSubmit(moment().format('hh:mm:ss'));
+      router.replace('/(student)/(tabs)/Home/')
+    }
+  };
 
   const handleOptionPress = (questionIndex: number, optionId: string) => {
     if (submitted || timeLeft === 0) return;
@@ -120,11 +183,6 @@ const QuestionsComponent = ({
     }, 0);
   };
 
-  const handleSubmit = () => {
-    setSubmitted(true);
-    setHome(true);
-  };
-
   const renderQuestions = () => {
     return sampleQuestions.map((question, index) => (
       <View key={question.id} style={styles.questionContainer}>
@@ -185,19 +243,8 @@ const QuestionsComponent = ({
         <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}>
           <Text style={styles.submitButtonText}>Submit</Text>
         </TouchableOpacity>
-      )}
-
-      {home && (
-        <TouchableOpacity
-          onPress={() => {
-            setHome(false);
-            router.replace('/(student)/(tabs)/Home');
-          }}
-          style={styles.submitButton}
-        >
-          <Text style={styles.submitButtonText}>Go to Home</Text>
-        </TouchableOpacity>
-      )}
+      )
+    }
     </ScrollView>
   );
 };

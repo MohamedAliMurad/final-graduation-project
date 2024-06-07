@@ -64,7 +64,6 @@ const Assignment = ({ assignment }: AssignmentProps) => {
       <View style={styles.content}>
         <View style={styles.textContainer}>
           <Text style={styles.assignmentNumber}>{assignment.title}</Text>
-          <Text style={styles.deadline}>Deadline: {assignment.deadline}</Text>
         </View>
       </View>
     </Center>

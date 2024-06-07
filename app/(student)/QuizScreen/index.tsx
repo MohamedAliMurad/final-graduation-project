@@ -11,9 +11,10 @@ import { VStack } from 'native-base';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import Exam from '../(components)/Exam';
-import ExamsList from '../(components)/ExamsList';
+import { quizData } from '../(components)/quizData';
+import { quizDataTyped } from '../(components)/type';
 
-const exams = ExamsList;
+const exams: quizDataTyped[] = quizData;
 
 const index = () => {
   const navigation = useNavigation();
@@ -24,10 +25,10 @@ const index = () => {
     navigation.setOptions({ title: examName });
   }, [examName]);
 
-  const [filterCriteria, setFilterCriteria] = useState<'upcoming' | 'submit' | 'missed'>('upcoming');
+  const [filterCriteria, setFilterCriteria] = useState<'Pending' | 'Submitted' | 'Missed'>('Pending');
   const [searchText, setSearchText] = useState<string>('');
 
-  const handleTabPress = (criteria: 'upcoming' | 'submit' | 'missed') => {
+  const handleTabPress = (criteria: 'Pending' | 'Submitted' | 'Missed') => {
     setFilterCriteria(criteria);
   };
 
@@ -38,9 +39,9 @@ const index = () => {
   const filteredExams = exams.filter((exam) => {
     const nameMatch = exam.title.toLowerCase().startsWith(searchText.toLowerCase());
     return (
-      (filterCriteria === 'upcoming' && exam.status === 'upcoming' && nameMatch) ||
-      (filterCriteria === 'submit' && exam.status === 'submitted' && nameMatch) ||
-      (filterCriteria === 'missed' && exam.status === 'missed' && nameMatch)
+      (filterCriteria === 'Pending' && exam.details.submission.status === 'Pending' && nameMatch) ||
+      (filterCriteria === 'Submitted' && exam.details.submission.status === 'Submitted' && nameMatch) ||
+      (filterCriteria === 'Missed' && exam.details.submission.status === 'Missed' && nameMatch)
     );
   });
 
@@ -48,9 +49,9 @@ const index = () => {
     <View style={styles.container}>
       <View style={styles.topSection}>
         <View style={styles.tabs}>
-          <TabButton onPress={() => handleTabPress('upcoming')} icon="calendar" label="Upcoming" active={filterCriteria === 'upcoming'} />
-          <TabButton onPress={() => handleTabPress('submit')} icon="send-o" label="Submit" active={filterCriteria === 'submit'} />
-          <TabButton onPress={() => handleTabPress('missed')} icon="call-missed" label="Missed" active={filterCriteria === 'missed'} />
+          <TabButton onPress={() => handleTabPress('Pending')} icon="calendar" label="Pending" active={filterCriteria === 'Pending'} />
+          <TabButton onPress={() => handleTabPress('Submitted')} icon="send-o" label="Submitted" active={filterCriteria === 'Submitted'} />
+          <TabButton onPress={() => handleTabPress('Missed')} icon="call-missed" label="Missed" active={filterCriteria === 'Missed'} />
         </View>
       </View>
       <View style={styles.lastSection}>
@@ -64,7 +65,7 @@ const index = () => {
           <ScrollView>
             <VStack>
               {filteredExams.map((exam) => (
-                <Exam key={exam.id} exam={exam} />
+                <Exam key={exam.id} exam ={exam} />
               ))}
             </VStack>
           </ScrollView>
