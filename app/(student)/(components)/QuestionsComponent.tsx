@@ -45,7 +45,7 @@ const QuestionsComponent = ({
   // axios call to post the exam details
   // const postExamDetails = async () => {
   //   try {
-  //     const response = await axios.post('http://localhost:3000/examDetails', {
+  //     const response = await axios.post('ENDPOINT API LINK', {
   //       quizId: exam.id,
   //       moduleId: exam.moduleId,
   //       studentId: exam.studentId,
