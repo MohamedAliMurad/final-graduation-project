@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, View } from 'react-native';
 import QuizDetailsComponent from '../(components)/QuizDetailsComponent';
 import ExamRules from '../(components)/ExamRules';
-import { Box, Flex } from 'native-base';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { quizDetails } from '../(components)/quizDetails';
 
 const index = () => {
 
-  const Details = quizDetails[0];
+  const Details = quizDetails[0].details;
   const Enroll = Details.enroll;
   const TotalDuration = Details.totalDuration;
 
@@ -22,7 +20,11 @@ const index = () => {
   return (
     <View style={styles.container}>
         <QuizDetailsComponent Details={Details} />
-        <ExamRules Enroll={Enroll} TotalDuration={TotalDuration} />
+        {
+          Enroll && (
+            Details.submission.status === 'Pending' && <ExamRules Enroll={Enroll} TotalDuration={TotalDuration} />
+          )
+        }
     </View>
   );
 };

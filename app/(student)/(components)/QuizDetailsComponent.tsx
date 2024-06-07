@@ -99,15 +99,57 @@ const QuizDetailsComponent = ({Details}: {Details: quizDetailsTyped[]}) => {
           </Flex>
         </Flex>
       </Flex>
-      <Box style={styles.description}>
-        <Heading style={styles.heading}>Before you start</Heading>
-      </Box>
-      <FlatList
-        renderItem={({ item }) => <Item title={item.title} />}
-        data={DATA}
-        keyExtractor={(item) => item.id}
-      />
-      {/* <Text style={styles.italicText}>ALL THE BEST!!</Text> */}
+      {
+        Details.submission.status !== 'Pending' ? (
+          <View>
+            <Box style={styles.description}>
+              <Heading style={styles.heading}>Submission</Heading>
+            </Box>
+
+            {Details.submission.submitAt&&<Flex style={styles.flexContainer}>
+              <Box style={styles.iconBox}>
+                <Fontisto name="date" size={28} color="black" />
+              </Box>
+              <Flex style={styles.infoBox}>
+                <Text style={styles.boldText}>{Details.submission.submitAt}</Text>
+                <Text style={styles.grayText}>Submission Time</Text>
+              </Flex>
+            </Flex>}
+
+            {Details.submission.takenTime !== 0 &&<Flex style={styles.flexContainer}>
+              <Box style={styles.iconBox}>
+              <Ionicons name="timer-sharp" size={30} color="black" />
+              </Box>
+              <Flex style={styles.infoBox}>
+                <Text style={styles.boldText}>{Details.submission.takenTime} Minute</Text>
+                <Text style={styles.grayText}>Taken Time</Text>
+              </Flex>
+            </Flex>}
+
+            <Flex style={styles.flexContainer}>
+              <Box style={styles.iconBox}>
+                <SimpleLineIcons  name="badge" size={30} color="black" />
+              </Box>
+              <Flex style={styles.infoBox}>
+                <Text style={styles.boldText}>{Details.submission.finalGrade}</Text>
+                <Text style={styles.grayText}>Your Score</Text>
+              </Flex>
+            </Flex>
+          </View>
+        ) : (
+          <View>
+            <Box style={styles.description}>
+              <Heading style={styles.heading}>Before you start</Heading>
+            </Box>
+            <FlatList
+              renderItem={({ item }) => <Item title={item.title} />}
+              data={DATA}
+              keyExtractor={(item) => item.id}
+            />
+            <Text style={styles.italicText}>ALL THE BEST!!</Text>
+          </View>
+        )
+      }
     </VStack>
     </View>
   );
