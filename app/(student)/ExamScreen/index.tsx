@@ -9,7 +9,7 @@ import { quizData } from '../(components)/quizData';
 
 const Index = () => {
   // Navigation
-  const params = useLocalSearchParams<{ examId: number }>();
+  const params = useLocalSearchParams<{ examId: string }>();
   const { examId } = params;
 
   const exam = quizData.find((quiz) => quiz.id === examId);

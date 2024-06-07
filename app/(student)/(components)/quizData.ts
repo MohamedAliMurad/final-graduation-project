@@ -1,5 +1,3 @@
-import { date } from 'date-and-time';
-import { Title } from 'react-native-paper';
 import { quizDataTyped } from './type';
 
 export const quizData: quizDataTyped[] = [

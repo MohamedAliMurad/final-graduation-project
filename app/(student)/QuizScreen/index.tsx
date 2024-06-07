@@ -12,8 +12,9 @@ import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import Exam from '../(components)/Exam';
 import { quizData } from '../(components)/quizData';
+import { quizDataTyped } from '../(components)/type';
 
-const exams = quizData;
+const exams: quizDataTyped[] = quizData;
 
 const index = () => {
   const navigation = useNavigation();
@@ -64,7 +65,7 @@ const index = () => {
           <ScrollView>
             <VStack>
               {filteredExams.map((exam) => (
-                <Exam key={exam.id} examId={exam.id} />
+                <Exam key={exam.id} exam ={exam} />
               ))}
             </VStack>
           </ScrollView>

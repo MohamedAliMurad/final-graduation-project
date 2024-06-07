@@ -8,8 +8,8 @@ import {
   Ionicons,
   Entypo,
 } from '@expo/vector-icons';
-import { quizDetails } from './quizData';
-import { quizDetailsTyped } from './type';
+import { quizDataTyped } from './type';
+import { quizData } from './quizData';
 
 type ItemData = {
   id: string;
@@ -40,7 +40,10 @@ const Item = ({ title }: ItemProps) => (
 
 
 
-const QuizDetailsComponent = ({Details}: {Details: quizDetailsTyped[]}) => {
+const QuizdetailsComponent = ({examId}: {examId: number}) => {
+  const Exam = quizData.find((quiz) => quiz.id === examId);
+  // Exam = quizData.find((quiz) => quiz.id === ExamId);
+
   return (
     <View style={styles.container}>
       <VStack >
@@ -54,7 +57,7 @@ const QuizDetailsComponent = ({Details}: {Details: quizDetailsTyped[]}) => {
             <Ionicons name="timer-sharp" size={30} color="black" />
           </Box>
           <Flex style={styles.infoBox}>
-            <Text style={styles.boldText}>{Details.totalDuration}</Text>
+            <Text style={styles.boldText}>{Exam?.details.totalDuration}</Text>
             <Text style={styles.grayText}>Time Duration</Text>
           </Flex>
         </Flex>
@@ -64,7 +67,7 @@ const QuizDetailsComponent = ({Details}: {Details: quizDetailsTyped[]}) => {
             <Fontisto name="date" size={28} color="black" />
           </Box>
           <Flex style={styles.infoBox}>
-            <Text style={styles.boldText}>{Details.startTime}</Text>
+            <Text style={styles.boldText}>{Exam?.details.startTime}</Text>
             <Text style={styles.grayText}>Start Time</Text>
           </Flex>
         </Flex>
@@ -74,7 +77,7 @@ const QuizDetailsComponent = ({Details}: {Details: quizDetailsTyped[]}) => {
             <Fontisto name="date" size={28} color="black" />
           </Box>
           <Flex style={styles.infoBox}>
-            <Text style={styles.boldText}>{Details.endTime}</Text>
+            <Text style={styles.boldText}>{Exam?.details.endTime}</Text>
             <Text style={styles.grayText}>End Time</Text>
           </Flex>
         </Flex>
@@ -84,7 +87,7 @@ const QuizDetailsComponent = ({Details}: {Details: quizDetailsTyped[]}) => {
             <FontAwesome5 name="chalkboard-teacher" size={28} color="black" />
           </Box>
           <Flex style={styles.infoBox}>
-            <Text style={styles.boldText}>{Details.instructorName}</Text>
+            <Text style={styles.boldText}>{Exam?.details.instructorName}</Text>
             <Text style={styles.grayText}>Instructor Name</Text>
           </Flex>
         </Flex>
@@ -94,34 +97,34 @@ const QuizDetailsComponent = ({Details}: {Details: quizDetailsTyped[]}) => {
             <SimpleLineIcons  name="badge" size={30} color="black" />
           </Box>
           <Flex style={styles.infoBox}>
-            <Text style={styles.boldText}>{Details.totalScore}</Text>
+            <Text style={styles.boldText}>{Exam?.details.totalScore}</Text>
             <Text style={styles.grayText}>Total Mark</Text>
           </Flex>
         </Flex>
       </Flex>
       {
-        Details.submission.status !== 'Pending' ? (
+        Exam?.details.submission.status !== 'Pending' ? (
           <View>
             <Box style={styles.description}>
               <Heading style={styles.heading}>Submission</Heading>
             </Box>
 
-            {Details.submission.submitAt&&<Flex style={styles.flexContainer}>
+            {Exam?.details.submission.submitAt&&<Flex style={styles.flexContainer}>
               <Box style={styles.iconBox}>
                 <Fontisto name="date" size={28} color="black" />
               </Box>
               <Flex style={styles.infoBox}>
-                <Text style={styles.boldText}>{Details.submission.submitAt}</Text>
+                <Text style={styles.boldText}>{Exam.details.submission.submitAt}</Text>
                 <Text style={styles.grayText}>Submission Time</Text>
               </Flex>
             </Flex>}
 
-            {Details.submission.takenTime !== 0 &&<Flex style={styles.flexContainer}>
+            {Exam?.details.submission.takenTime !== 0 &&<Flex style={styles.flexContainer}>
               <Box style={styles.iconBox}>
               <Ionicons name="timer-sharp" size={30} color="black" />
               </Box>
               <Flex style={styles.infoBox}>
-                <Text style={styles.boldText}>{Details.submission.takenTime} Minute</Text>
+                <Text style={styles.boldText}>{Exam?.details.submission.takenTime} Minute</Text>
                 <Text style={styles.grayText}>Taken Time</Text>
               </Flex>
             </Flex>}
@@ -131,7 +134,7 @@ const QuizDetailsComponent = ({Details}: {Details: quizDetailsTyped[]}) => {
                 <SimpleLineIcons  name="badge" size={30} color="black" />
               </Box>
               <Flex style={styles.infoBox}>
-                <Text style={styles.boldText}>{Details.submission.finalGrade}</Text>
+                <Text style={styles.boldText}>{Exam?.details.submission.finalGrade}</Text>
                 <Text style={styles.grayText}>Your Score</Text>
               </Flex>
             </Flex>
@@ -226,4 +229,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default QuizDetailsComponent;
+export default QuizdetailsComponent;

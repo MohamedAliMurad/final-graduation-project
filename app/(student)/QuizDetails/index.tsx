@@ -9,18 +9,19 @@ const index = () => {
 
   
   const navigation = useNavigation();
-  const params = useLocalSearchParams<{ examName: string, ExamId: number }>();
+  const params = useLocalSearchParams<{ examName: string, ExamId: string }>();
   const { examName, ExamId } = params;
   useEffect(() => {
     navigation.setOptions({ title: examName });
     }, [examName, ExamId]);
 
-    const exam = quizData.find((quiz) => quiz.id === ExamId);
+    // Get the exam details and enrollment status from the quizData array
+    const exam = quizData.find((quiz) => quiz.id == ExamId);
     const Details = exam?.details;
     const Enroll = Details?.enroll;
   return (
     <View style={styles.container}>
-        <QuizDetailsComponent Details={Details} />
+        <QuizDetailsComponent examId={exam?.id} />
         {
           Enroll && (
             Details.submission.status === 'Pending' && <ExamRules Enroll={Enroll} examId= {exam?.id} />

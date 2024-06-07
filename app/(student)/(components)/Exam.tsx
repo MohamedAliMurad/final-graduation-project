@@ -3,13 +3,13 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Center } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { Link } from 'expo-router';
-import { quizDataTyped, ExamsTyped } from './type'; // Ensure these types are correctly defined
-import { quizData } from './quizData'; // Ensure quizData is correctly imported
+import { quizDataTyped } from './type'; // Ensure these types are correctly defined
 
-const Exam = ({ examId }: { examId: number }) => {
+const Exam = ({ exam }: { exam: quizDataTyped[] }) => {
 
-  const exam = quizData.find((quiz) => quiz.id === examId);
-
+  // const exam = quizData.find((quiz) => quiz.id === examId);
+  const examName = exam?.title;
+  const examId = exam?.id;
   if (!exam) {
     return (
       <Center h="100" bg="#F6F6F6" rounded="xl" shadow={0} style={styles.container}>
@@ -22,7 +22,7 @@ const Exam = ({ examId }: { examId: number }) => {
     <Link
       href={{
         pathname: '/(student)/QuizDetails/',
-        params: { examName: exam.title, ExamId: exam.id },
+        params: { examName: examName, ExamId: examId },
       }}
       asChild
     >
@@ -48,15 +48,15 @@ const Exam = ({ examId }: { examId: number }) => {
           </View>
           <View style={styles.content}>
             <View style={styles.textContainer}>
-              <Text style={styles.examtitle}>{exam.title}</Text>
+              <Text style={styles.examtitle}>{exam?.title}</Text>
               <View style={styles.infoContainer}>
                 <View>
-                  <Text style={styles.date}>{exam.date}</Text>
-                  <Text style={styles.date}>{exam.details.totalDuration}</Text>
+                  <Text style={styles.date}>{exam?.date}</Text>
+                  <Text style={styles.date}>{exam?.details?.totalDuration}</Text>
                 </View>
                 <View style={styles.daysLeftContainer}>
                   <Text style={[styles.daysLeft, { backgroundColor: '#F19A1A' }]}>
-                    {exam.details.startTime}
+                    {exam?.details.startTime}
                   </Text>
                 </View>
               </View>
