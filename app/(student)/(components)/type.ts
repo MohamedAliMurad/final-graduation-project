@@ -26,6 +26,7 @@ export type QuestionsMcqTyped = {
 export type quizDataTyped = {
   id: number;
   title: string;
+  date: string;
   details: {
     quizId: number;
     studentId: number;

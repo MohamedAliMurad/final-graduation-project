@@ -3,7 +3,7 @@ import { StyleSheet, Text } from 'react-native';
 import { Box, View } from 'native-base';
 import { Link } from 'expo-router';
 
-const ExamRules = ({Enroll, TotalDuration}:{Enroll:boolean, TotalDuration:number}) => {
+const ExamRules = ({Enroll, examId}:{Enroll:boolean, examId:number}) => {
 
   return (
     <Box style={styles.container}>
@@ -11,7 +11,7 @@ const ExamRules = ({Enroll, TotalDuration}:{Enroll:boolean, TotalDuration:number
       Enroll && <Link style={styles.link}
         href={{
           pathname: '/ExamScreen/',
-          params: { TotalDuration: TotalDuration,}
+          params: { examId: examId,}
         }}
       >
         <View><Text style={styles.linkText}>Enroll</Text></View>

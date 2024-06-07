@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Flex, Heading, Text, VStack } from 'native-base';
 
-import { quizDetails } from './quizDetails';
+import { quizDetails } from './quizData';
 import {
   Fontisto,
   FontAwesome5,
@@ -189,7 +189,7 @@ const AttendDetailsComponent = () => {
           Take Attend
         </Button>
 
-        <Text>{cached ? `${cached}` : 'msh sh8ala yalahwi'}</Text>
+        {/* <Text>{cached ? `${cached}` : 'msh sh8ala yalahwi'}</Text> */}
       </Box>
     </Flex>
   );

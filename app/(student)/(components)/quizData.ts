@@ -1,10 +1,12 @@
+import { date } from 'date-and-time';
 import { Title } from 'react-native-paper';
 import { quizDataTyped } from './type';
 
-export const quizDetails: quizDataTyped[] = [
+export const quizData: quizDataTyped[] = [
   {
     id: 1,
     title: 'Physics Quiz',
+    date: '2024-06-15',
     details: {
       quizId: 1,
       studentId: 1,
@@ -26,6 +28,7 @@ export const quizDetails: quizDataTyped[] = [
   {
     id: 2,
     title: 'Midterm Math',
+    date: '2024-06-10',
     details: {
       quizId: 2,
       studentId: 1,
@@ -37,7 +40,7 @@ export const quizDetails: quizDataTyped[] = [
       totalDuration: 60,
       totalScore: 100,
       submission: {
-        finalGrade: 90,
+        finalGrade: 60,
         takenTime: 50,
         status: 'Submitted',
         submitAt: '10:50 AM',
@@ -47,6 +50,7 @@ export const quizDetails: quizDataTyped[] = [
   {
     id: 3,
     title: 'Final Exam',
+    date: '2024-06-30',
     details: {
       quizId: 3,
       studentId: 1,
@@ -58,16 +62,17 @@ export const quizDetails: quizDataTyped[] = [
       totalDuration: 60,
       totalScore: 100,
       submission: {
-        finalGrade: 90,
-        takenTime: 50,
+        finalGrade: 100,
+        takenTime: 30,
         status: 'Submitted',
-        submitAt: '10:50 AM',
+        submitAt: '10:30 AM',
       },
     },
   },
   {
     id: 4,
     title: 'Biology Quiz',
+    date: '2024-06-30',
     details: {
       quizId: 4,
       studentId: 1,
@@ -89,6 +94,7 @@ export const quizDetails: quizDataTyped[] = [
   {
     id: 5,
     title: 'Chemistry Midterm',
+    date: '2024-06-30',
     details: {
       quizId: 5,
       studentId: 1,
@@ -110,6 +116,7 @@ export const quizDetails: quizDataTyped[] = [
   {
     id: 6,
     title: 'History Final',
+    date: '2024-06-30',
     details: {
       quizId: 6,
       studentId: 1,
@@ -131,6 +138,7 @@ export const quizDetails: quizDataTyped[] = [
   {
     id: 7,
     title: 'Geography Quiz',
+    date: '2024-06-5',
     details: {
       quizId: 7,
       studentId: 1,

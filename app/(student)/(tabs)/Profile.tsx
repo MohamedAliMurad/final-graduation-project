@@ -55,8 +55,8 @@ const ProfileScreen: React.FC = () => {
             </View>
           </View>
         </TouchableOpacity>
-        <Text style={styles.userName}>Mohamed</Text>
-        <Text style={styles.email}>example@gmail.com</Text>
+        <Text style={styles.userName}>Mohamed Ali</Text>
+        <Text style={styles.email}>id@o6u.edu.eg</Text>
       </View>
 
       <View style={styles.settingsSection}>

@@ -4,15 +4,18 @@ import { Text } from 'react-native-paper';
 import sampleQuestions from '../(components)/questions';
 import QuestionsComponent from '../(components)/QuestionsComponent';
 import { useLocalSearchParams } from 'expo-router';
-import moment from 'moment';
+import { quizData } from '../(components)/quizData';
+
 
 const Index = () => {
   // Navigation
-  const params = useLocalSearchParams<{ TotalDuration: string }>();
-  const { TotalDuration } = params;
+  const params = useLocalSearchParams<{ examId: number }>();
+  const { examId } = params;
+
+  const exam = quizData.find((quiz) => quiz.id === examId);
 
   // State variables
-  const [timeLeft, setTimeLeft] = useState<number>(parseInt(TotalDuration) * 60); // Convert TotalDuration to integer
+  const [timeLeft, setTimeLeft] = useState<number>(parseInt(exam?.details.totalDuration) * 60); // Convert TotalDuration to integer
   const [score, setScore] = useState<number>(0);
   const [submitted, setSubmitted] = useState<boolean>(false);
 

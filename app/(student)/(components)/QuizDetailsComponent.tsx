@@ -8,7 +8,7 @@ import {
   Ionicons,
   Entypo,
 } from '@expo/vector-icons';
-import { quizDetails } from './quizDetails';
+import { quizDetails } from './quizData';
 import { quizDetailsTyped } from './type';
 
 type ItemData = {

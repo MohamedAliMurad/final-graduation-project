@@ -1,30 +1,28 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Center } from 'native-base';
-
 import { AntDesign } from '@expo/vector-icons';
-
 import { Link } from 'expo-router';
-import { ExamsTyped } from './type';
+import { quizDataTyped, ExamsTyped } from './type'; // Ensure these types are correctly defined
+import { quizData } from './quizData'; // Ensure quizData is correctly imported
 
-interface ExamProps {
-  exam: {
-    id: number;
-    title: string;
-    date: string;
-    startTime: string;
-    duration: string;
-    status: string;
-    isActive: boolean;
-  };
-}
+const Exam = ({ examId }: { examId: number }) => {
 
-const Exam = ({ exam }: { exam: ExamsTyped }) => {
-  return exam.isActive ? (
+  const exam = quizData.find((quiz) => quiz.id === examId);
+
+  if (!exam) {
+    return (
+      <Center h="100" bg="#F6F6F6" rounded="xl" shadow={0} style={styles.container}>
+        <Text style={styles.examtitle}>Exam not found</Text>
+      </Center>
+    );
+  }
+
+  return (
     <Link
       href={{
         pathname: '/(student)/QuizDetails/',
-        params: { examName: exam.title },
+        params: { examName: exam.title, ExamId: exam.id },
       }}
       asChild
     >
@@ -36,16 +34,13 @@ const Exam = ({ exam }: { exam: ExamsTyped }) => {
           shadow={0}
           style={[
             styles.container,
-            {
-              opacity:
-                exam.status === 'submitted'
-                  ? 1
-                  : exam.status === 'missed'
-                  ? 1
-                  : exam.isActive && exam.status === 'upcoming'
-                  ? 1
-                  : 0.5,
-            },
+            // You can uncomment and customize the opacity logic if needed
+            // {
+            //   opacity:
+            //     exam.status === 'submitted' ? 1 :
+            //     exam.status === 'missed' ? 1 :
+            //     exam.isActive && exam.status === 'upcoming' ? 1 : 0.5,
+            // },
           ]}
         >
           <View style={styles.icon}>
@@ -54,23 +49,14 @@ const Exam = ({ exam }: { exam: ExamsTyped }) => {
           <View style={styles.content}>
             <View style={styles.textContainer}>
               <Text style={styles.examtitle}>{exam.title}</Text>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  width: '100%',
-                }}
-              >
+              <View style={styles.infoContainer}>
                 <View>
                   <Text style={styles.date}>{exam.date}</Text>
-                  <Text style={styles.date}>{exam.duration}</Text>
+                  <Text style={styles.date}>{exam.details.totalDuration}</Text>
                 </View>
                 <View style={styles.daysLeftContainer}>
-                  <Text
-                    style={[styles.daysLeft, { backgroundColor: '#F19A1A' }]}
-                  >
-                    {exam.startTime}
+                  <Text style={[styles.daysLeft, { backgroundColor: '#F19A1A' }]}>
+                    {exam.details.startTime}
                   </Text>
                 </View>
               </View>
@@ -79,53 +65,6 @@ const Exam = ({ exam }: { exam: ExamsTyped }) => {
         </Center>
       </Pressable>
     </Link>
-  ) : (
-    <Center
-      h="100"
-      bg="#F6F6F6"
-      rounded="xl"
-      shadow={0}
-      style={[
-        styles.container,
-        {
-          opacity:
-            exam.status === 'submitted'
-              ? 1
-              : exam.status === 'missed'
-              ? 1
-              : exam.isActive && exam.status === 'upcoming'
-              ? 1
-              : 0.5,
-        },
-      ]}
-    >
-      <View style={styles.icon}>
-        <AntDesign name="profile" size={60} color="#F19A1A" />
-      </View>
-      <View style={styles.content}>
-        <View style={styles.textContainer}>
-          <Text style={styles.examtitle}>{exam.title}</Text>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: '100%',
-            }}
-          >
-            <View>
-              <Text style={styles.date}>{exam.date}</Text>
-              <Text style={styles.date}>{exam.duration}</Text>
-            </View>
-            <View style={styles.daysLeftContainer}>
-              <Text style={[styles.daysLeft, { backgroundColor: '#F19A1A' }]}>
-                {exam.startTime}
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </Center>
   );
 };
 
@@ -174,6 +113,12 @@ const styles = StyleSheet.create({
     width: 90,
     textAlign: 'center',
     padding: 2,
+  },
+  infoContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
   },
 });
 
