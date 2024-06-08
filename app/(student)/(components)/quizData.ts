@@ -169,7 +169,7 @@ export const quizData: quizDataTyped[] = [
 // // Define the API function to fetch quiz data
 // export const fetchQuizData = async (): Promise<quizDataTyped[]> => {
 //   try {
-//     const response = await axios.get<quizDataTyped[]>('https://api.example.com/quizData');
+//     const response = await axios.get<quizDataTyped[]>('http://localhost:5000/Api/V0.1/courses/{courseId}/instructors/{instructorId}/quizzes/ViewQuizDetails');
 //     return response.data;
 //   } catch (error) {
 //     console.error('Error fetching quiz data:', error);
