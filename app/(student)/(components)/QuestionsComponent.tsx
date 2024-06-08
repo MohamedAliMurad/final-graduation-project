@@ -16,7 +16,7 @@ import moment from 'moment';
 import { router } from 'expo-router';
 
 interface Props {
-  exam: quizDataTyped;
+  exam: quizDataTyped[];
   sampleQuestions: QuestionTyped[];
   timeLeft: number;
   setTimeLeft: React.Dispatch<React.SetStateAction<number>>;
@@ -39,7 +39,7 @@ const QuestionsComponent = ({
   const [timeSubmit, setTimeSubmit] = useState<string | null>(null); // Initialize as null
   const [finalGrade, setFinalGrade] = useState<number>(0);
   const [takenTime, setTakenTime] = useState<number>(0);
-  const [examDetails] = useState<quizDataTyped[]>(exam.details || []);
+  const [examDetails] = useState<quizDataTyped[]>(exam|| []);
 
   // Calculate the remaining time
   useEffect(() => {
@@ -98,6 +98,7 @@ const QuestionsComponent = ({
     if (submitted) {
       setFinalGrade(calculateScore());
       console.log(calculateScore())
+      console.log(examDetails)
       router.replace('/(student)/(tabs)/Home');
     }
   }, [submitted, selectedOptionIndices]);
