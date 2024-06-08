@@ -14,6 +14,7 @@ import { QuestionTyped, quizDataTyped } from './type';
 import { useFocusEffect } from '@react-navigation/native';
 import moment from 'moment';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Props {
   exam: quizDataTyped[];
@@ -97,6 +98,7 @@ const QuestionsComponent = ({
   useEffect(() => {
     if (submitted) {
       setFinalGrade(calculateScore());
+      cacheExamDetails(calculateScore());
       console.log(calculateScore())
       console.log(examDetails)
       router.replace('/(student)/(tabs)/Home');
@@ -125,6 +127,24 @@ const QuestionsComponent = ({
       handleSubmit();
     }
   }, [timeLeft]);
+
+  // Cache the exam details locally
+  const cacheExamDetails = async (score: number) => {
+    try {
+      const examData = {
+        quizId: examDetails.details.quizId,
+        studentId: examDetails.details.studentId,
+        moduleId: examDetails.details.moduleId,
+        finalGrade: score,
+        takenTime,
+        submitAt: timeSubmit,
+      };
+      await AsyncStorage.setItem('cachedExamDetails', JSON.stringify(examData));
+      console.log('Exam details cached locally.');
+    } catch (error) {
+      console.error('Error caching exam details:', error);
+    }
+  };
 
   // Handle option press for multiple-choice and optional-choice questions
   const handleOptionPress = (questionIndex: number, optionId: string) => {
