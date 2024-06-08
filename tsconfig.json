@@ -7,15 +7,27 @@
     "forceConsistentCasingInFileNames": true,
     "target": "esnext",
     "module": "esnext",
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "allowJs": true,
     "checkJs": false,
     "jsx": "react-native",
     "noEmit": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
-    "types": ["jest"]
+    "types": [
+      "jest"
+    ]
   },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

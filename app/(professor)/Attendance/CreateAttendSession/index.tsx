@@ -5,9 +5,9 @@ import { RadioButton, Title } from 'react-native-paper';
 import MapView, { Marker } from 'react-native-maps';
 import LocationsData from '../../(components)/LocationsData';
 import axios from 'axios';
-import { getLocation } from '@/API/getLocation';
 import moment from 'moment';
 import { LocationObject } from '../../(components)/professor-types';
+import { getLocation } from '../../../../API/getLocation';
 
 const Locations = LocationsData;
 
