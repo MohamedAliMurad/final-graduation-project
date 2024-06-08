@@ -15,6 +15,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import moment from 'moment';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import NetInfo from '@react-native-community/netinfo';
 
 interface Props {
   exam: quizDataTyped[];
@@ -99,6 +101,7 @@ const QuestionsComponent = ({
     if (submitted) {
       setFinalGrade(calculateScore());
       cacheExamDetails(calculateScore());
+      sendExamDetails(calculateScore());
       console.log(calculateScore())
       console.log(examDetails)
       router.replace('/(student)/(tabs)/Home');
@@ -146,6 +149,49 @@ const QuestionsComponent = ({
     }
   };
 
+  // Send the exam details to the backend
+  const sendExamDetails = async (score: number) => {
+    const examData = {
+      quizId: examDetails.details.quizId,
+      studentId: examDetails.details.studentId,
+      moduleId: examDetails.details.moduleId,
+      finalGrade: score,
+      takenTime,
+      submitAt: timeSubmit,
+    };
+    try {
+      await axios.post('YOUR_BACKEND_ENDPOINT', examData);
+      console.log('Exam details sent to backend.');
+      await AsyncStorage.removeItem('cachedExamDetails');
+    } catch (error) {
+      console.error('Error sending exam details:', error);
+    }
+  };
+
+  // Retry sending cached exam details when the connection is back
+  const retrySendingCachedExamDetails = async () => {
+    const state = await NetInfo.fetch();
+
+    if (state.isConnected) {
+      try {
+        const cachedExamDetails = await AsyncStorage.getItem('cachedExamDetails');
+        if (cachedExamDetails) {
+          await axios.post('YOUR_BACKEND_ENDPOINT', JSON.parse(cachedExamDetails));
+          console.log('Cached exam details sent to backend.');
+          await AsyncStorage.removeItem('cachedExamDetails');
+        }
+      } catch (error) {
+        console.error('Error sending cached exam details:', error);
+      }
+    }
+  };
+
+  // Listen for the connection change to retry sending cached exam details
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(retrySendingCachedExamDetails);
+    return () => unsubscribe();
+  }, []);
+
   // Handle option press for multiple-choice and optional-choice questions
   const handleOptionPress = (questionIndex: number, optionId: string) => {
     if (submitted || timeLeft === 0) return;
@@ -175,8 +221,6 @@ const QuestionsComponent = ({
       return newState;
     });
   };
-
-  // Calculate the score based on the selected options
 
   // Calculate the score based on the selected options
   const calculateScore = () => {
