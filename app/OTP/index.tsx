@@ -1,4 +1,4 @@
-import { Box, Button, Text, View } from 'native-base';
+import { Box, Button, Flex, Input, Text, View } from 'native-base';
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 
@@ -10,12 +10,13 @@ import {
 } from 'react-native-confirmation-code-field';
 import { GestureResponderEvent } from 'react-native';
 import { router } from 'expo-router';
+import axios from 'axios';
 
 const styles = StyleSheet.create({
   root: { padding: 20, minHeight: 300 },
 
   codeFiledRoot: {
-    width: 280,
+    width: 'auto',
     marginLeft: 'auto',
     marginRight: 'auto',
   },
@@ -39,7 +40,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const CELL_COUNT = 4;
+const CELL_COUNT = 6;
+
+interface FormValues {
+  email: string;
+  newPassword: string;
+}
 
 const EnterCode = () => {
   const [value, setValue] = useState('');
@@ -49,18 +55,54 @@ const EnterCode = () => {
     setValue,
   });
 
+  const [formValues, setFormValues] = useState<FormValues>({
+    email: '',
+    newPassword: '',
+  });
+
+  const handleChange = (name: string, value: string) => {
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post(
+        'http://15.157.61.53:8085/auth/Reset',
+        {
+          otp: value,
+          email: formValues.email,
+          newPassword: formValues.newPassword,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.data);
+      router.replace('/');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.root}>
-      <Box
+      <Flex
         size={'100%'}
         alignItems={'center'}
         flexDir={'column'}
         justifyContent={'center'}
+        width={'full'}
+        padding={'10'}
       >
         <Text fontWeight={'bold'} fontSize={'3xl'}>
           Enter Code
         </Text>
-        <Box p={10} mb={5} flexDir={'row'}>
+        <Box p={4} mb={5} flexDir={'row'}>
           <CodeField
             ref={ref}
             {...props}
@@ -84,15 +126,39 @@ const EnterCode = () => {
           />
         </Box>
 
+        <Box marginY={5}>
+          <Input
+            onChangeText={(value) => handleChange('email', value)}
+            value={formValues.email}
+            type="text"
+            mx="3"
+            placeholder="id@o6u.edu.eg"
+            w="100%"
+            accessibilityLabel="Label for Email"
+          />
+        </Box>
+
+        <Box mb={5}>
+          <Input
+            onChangeText={(value) => handleChange('newPassword', value)}
+            value={formValues.newPassword}
+            type="password"
+            mx="3"
+            placeholder="New Password"
+            w="100%"
+            accessibilityLabel="New Password"
+          />
+        </Box>
+
         <Button
           w={'100%'}
           backgroundColor={'#F19A1A'}
           // onPress={(e: GestureResponderEvent) => handleSubmit()}
-          onPress={() => router.push('resetpassword')}
+          onPress={handleSubmit}
         >
           <Text color={'white'}>Submit</Text>
         </Button>
-      </Box>
+      </Flex>
     </SafeAreaView>
   );
 };
